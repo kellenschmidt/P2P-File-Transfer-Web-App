@@ -25,6 +25,7 @@
     "core-js": "^2.4.1",
     "express": "^4.16.2",
     "rxjs": "^5.4.2",
+    "webtorrent": "^0.98.20",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
