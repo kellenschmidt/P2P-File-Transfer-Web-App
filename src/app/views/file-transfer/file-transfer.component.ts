@@ -8,11 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class FileTransferComponent implements OnInit {
 
   currentSize: number = 1100000;
-  totalSize: number = 2200000000;
+  totalSize: number = 2200000;
+  pageHeading: string = '';
 
   constructor() { }
 
   ngOnInit() {
+    this.initPageHeading();
   }
 
   abbreviateFileSize(oldSize: number, base: number) {
@@ -40,6 +42,14 @@ export class FileTransferComponent implements OnInit {
 
   getTransferPercent() {
     return this.getCurrentSize()/this.getTotalSize()*100;
+  }
+
+  initPageHeading() {
+    this.pageHeading = (this.getTotalSize() > 0 ? 'Transfer in progress' : 'Waiting for receiver');
+  }
+
+  cancelTransfer() {
+    this.pageHeading = "Transfer canceled";
   }
 
 }
