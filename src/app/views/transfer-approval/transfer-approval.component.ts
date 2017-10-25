@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-transfer-approval',
@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransferApprovalComponent implements OnInit {
 
-  receiverLocation = 'Dallas, TX';
+  @Input('locationName') receiverLocation;
 
   constructor() { }
 

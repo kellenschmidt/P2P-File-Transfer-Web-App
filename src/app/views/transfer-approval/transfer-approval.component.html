@@ -1,4 +1,21 @@
-<h3>Approve transfer to <span>{{this.receiverLocation}}</span>?</h3>
-<p>Map goes here...</p>
-<button>Decline</button>
-<button>Approve</button>
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+      
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Approve transfer to <span>{{this.receiverLocation}}</span>?</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p>Map goes here...</p>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Decline</button>
+      <button type="button" class="btn btn-primary">Approve</button>
+    </div>
+
+  </div>
+</div>
