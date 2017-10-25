@@ -8,6 +8,7 @@ import { HomeComponent } from './views/home/home.component';
 import { FileTransferComponent } from './views/file-transfer/file-transfer.component';
 import { MatProgressBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TransferApprovalComponent } from './views/transfer-approval/transfer-approval.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -18,7 +19,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     HomeComponent,
-    FileTransferComponent
+    FileTransferComponent,
+    TransferApprovalComponent
   ],
   imports: [
     BrowserModule,
