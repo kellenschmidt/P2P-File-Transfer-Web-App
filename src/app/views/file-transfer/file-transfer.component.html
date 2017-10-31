@@ -3,13 +3,3 @@
 <span *ngIf="getTotalSize() == 0">https://p2pfile.download/abc</span>
 <span *ngIf="getTotalSize() > 0">{{abbreviateFileSize(getCurrentSize(), getTotalSize())}} / {{abbreviateFileSize(getTotalSize(), getTotalSize())}} - {{getTransferPercent()}}%</span>
 <button (click)="cancelTransfer()">Cancel</button>
-
-<!-- Button trigger modal -->
-<button type="button" data-toggle="modal" data-target="#locationApprovalModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="locationApprovalModal" tabindex="-1" role="dialog" aria-labelledby="locationApprovalModalLabel" aria-hidden="true">
-  <app-transfer-approval locationName="Dallas, TX"></app-transfer-approval>
-</div>
