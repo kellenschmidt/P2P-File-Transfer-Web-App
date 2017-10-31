@@ -7,6 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  placeholderText: string = ""
+  valueText: string = ""
+
+  handleFileSelection(event) {
+    alert(event);
+    this.placeholderText = "Selected file";
+    this.valueText = event;
+  }
+
   constructor() { }
 
   ngOnInit() {

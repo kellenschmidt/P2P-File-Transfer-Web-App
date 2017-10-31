@@ -1,0 +1,46 @@
+#video-background {
+  /*  making the video fullscreen  */
+  position: fixed;
+  left: 0; 
+  top: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  width: auto; 
+  height: auto;
+  z-index: -100;
+}
+
+main {
+  /*  just a fancy border  */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  h1 {
+    color: black;
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    font-size: 36px;
+  }
+}
+
+#fi-label {
+  position: absolute;
+  top: 40%;
+  left: 41%;
+}
+
+#fi-input {
+  position: absolute;
+  top: 40% + .5%;
+  left: 41% + 0.6%;
+}
+
+#start-transfer-btn {
+  position: absolute;
+  top: 50%;
+  left: 46%;
+}

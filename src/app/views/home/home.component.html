@@ -1,4 +1,33 @@
-<p>
-  This is the home page :^)<br/>
-  "The (carrot nose) is a funny thing to specify" - meg
-</p>
+<video autoplay loop id="video-background" muted plays-inline>
+  <!-- <source src="https://player.vimeo.com/external/158148793.hd.mp4?s=8e8741dbee251d5c35a759718d4b0976fbf38b6f&profile_id=119&oauth2_token_id=57447761" type="video/mp4"> -->
+  <source src="assets/10K_Feet.mp4" type="video/mp4">
+  <!-- <source src="assets/The-Coast.mp4" type="video/mp4"> -->
+  <!-- <source src="assets/Two-Swimmers.mp4" type="video/mp4"> -->
+  <!-- <source src="assets/Keep_Running.mp4" type="video/mp4"> -->
+  <!-- <source src="assets/Sunset-Lapse.mp4" type="video/mp4"> -->
+    
+</video>
+
+<main class="text-center">
+  <h1>File Transferer</h1>
+
+  <!-- <div>
+    <material-app></material-app>
+  </div>
+
+  <button type="button" mat-button (click)="imgFileInput.click()">Choose file</button>
+  <input hidden type="file" #imgFileInput (change)="handleFileSelection($event)" id="hidden-file-input"/>
+  <form>
+      <mat-form-field>
+        <input matInput disabled [placeholder]="placeholderText" [value]="valueText">
+        <pre>{{valueText | json}}</pre>
+      </mat-form-field>
+    </form>
+  <button class="btn btn-primary">Submit</button> -->
+  <br>
+
+  <input class="top-left" id="fi-input" multiple type="file"/>
+  <label id="fi-label" for="fi-input" class="btn btn-primary top-left">Choose Files</label>
+  <button id="start-transfer-btn" class="btn btn-info" routerLink="/stepper">Initiate transfer</button>
+  
+</main>
