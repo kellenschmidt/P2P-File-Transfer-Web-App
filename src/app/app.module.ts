@@ -12,6 +12,8 @@ import { TransferApprovalComponent } from './views/transfer-approval/transfer-ap
 import { FileTransferStepperComponent } from './views/file-transfer-stepper/file-transfer-stepper.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { PeerService } from './shared/api/peer.service';
+
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'transfer', component: FileTransferComponent},
@@ -38,7 +40,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [],
-  bootstrap: [AppComponent],
+  providers: [PeerService],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
