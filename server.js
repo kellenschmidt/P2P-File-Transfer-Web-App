@@ -1,13 +1,26 @@
+'use strict';
 // Get dependencies
 const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
+const db = require('./server/db/db.js');
+const { Client } = require('pg');
 
 // Get our API routes
 const api = require('./server/routes/api');
-
+const peerapi = require('./server/routes/peer');
 const app = express();
+
+// Connect to db
+db.connect(function(err) {
+	if(err){
+		console.log("Unable to connect to db");
+		process.exit(1);
+	}else{
+		console.log("Connected to db");
+	}
+})
 
 // Parsers for POST data
 app.use(bodyParser.json());
@@ -18,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Set our api routes
 app.use('/api', api);
+app.use('/peer', peerapi);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
