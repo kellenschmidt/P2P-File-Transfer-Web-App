@@ -10,7 +10,7 @@ export class PeerService {
 	constructor() {
 	// Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
 	// field please let me know Kellen
-	this.peer = new Peer({ key: '7599wxdge79442t9' });
+	this.peer = new Peer({ key: '<key>' });
 		setTimeout(() => {
 			this.peerId = this.peer.id;
 			console.log("PeerId:" + this.peer.id);
