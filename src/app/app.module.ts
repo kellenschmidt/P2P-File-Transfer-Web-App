@@ -11,9 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TransferApprovalComponent } from './views/transfer-approval/transfer-approval.component';
 import { FileTransferStepperComponent } from './views/file-transfer-stepper/file-transfer-stepper.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { App1Component } from './views/input-file/app1.component';
-import { InputFileComponent } from './views/input-file/input-file.component';
-import { ByteFormatPipe } from './views/input-file/byte-format.pipe';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -28,9 +25,6 @@ const appRoutes: Routes = [
     FileTransferComponent,
     TransferApprovalComponent,
     FileTransferStepperComponent,
-    App1Component,
-    InputFileComponent,
-    ByteFormatPipe,
   ],
   imports: [
     BrowserModule,

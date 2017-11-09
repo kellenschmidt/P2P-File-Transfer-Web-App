@@ -29,7 +29,6 @@
     "express": "^4.16.2",
     "hammerjs": "^2.0.8",
     "jquery": "^3.2.1",
-    "lf-ng-md-file-input": "^1.5.3",
     "popper.js": "^1.12.6",
     "rxjs": "^5.5.2",
     "webtorrent": "^0.98.20",
