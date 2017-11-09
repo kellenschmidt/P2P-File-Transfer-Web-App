@@ -1,54 +1,52 @@
-<mat-horizontal-stepper [linear]="false">
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Share link</ng-template>
-      <!-- <mat-form-field>
-        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-      </mat-form-field> -->
-      <!-- <h3>{{this.pageHeading}}</h3> -->
-      <mat-progress-bar [mode]="'indeterminate'" [value]="getTransferPercent()"></mat-progress-bar>
-      <span class="link-display">https://p2pfile.download/abc</span>
-      <!-- <span *ngIf="getTotalSize() > 0">{{abbreviateFileSize(getCurrentSize(), getTotalSize())}} / {{abbreviateFileSize(getTotalSize(), getTotalSize())}} - {{getTransferPercent()}}%</span> -->
-      <br>
-      
-      <button (click)="cancelTransfer()" class="btn btn-danger">Cancel</button>
-      <!-- Button trigger modal -->
-      <button type="button" data-toggle="modal" data-target="#locationApprovalModal" class="btn btn-success">
-        Approve
-      </button>
+<main>
+  <mat-horizontal-stepper [linear]="false">
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Share link</ng-template>
         
-      <!-- Modal -->
-      <div class="modal fade" id="locationApprovalModal" tabindex="-1" role="dialog" aria-labelledby="locationApprovalModalLabel" aria-hidden="true">
-        <app-transfer-approval locationName="Dallas, TX"></app-transfer-approval>
-      </div>
+        <mat-progress-bar [mode]="'indeterminate'" [value]="getTransferPercent()"></mat-progress-bar>
+        <span class="link-display">https://p2pfile.download/abc</span>
+        <button (click)="cancelTransfer()" class="btn btn-danger">Cancel</button>
+        
+        <!-- Button trigger modal -->
+        <button type="button" data-toggle="modal" data-target="#locationApprovalModal" class="btn btn-success">
+          Approve
+        </button>
+          
+        <!-- Modal -->
+        <div class="modal fade" id="locationApprovalModal" tabindex="-1" role="dialog" aria-labelledby="locationApprovalModalLabel" aria-hidden="true">
+          <app-transfer-approval locationName="Dallas, TX"></app-transfer-approval>
+        </div>
+  
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
 
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Transfer in progress</ng-template>
-      <!-- <mat-form-field>
-        <input matInput placeholder="Address" formControlName="secondCtrl" required>
-      </mat-form-field> -->
-      <mat-progress-bar [mode]="'determinate'" [value]="getTransferPercent()"></mat-progress-bar>
-      <!-- <span >https://p2pfile.download/abc</span> -->
-      <span *ngIf="getTotalSize() > 0" class="file-size-display my-2">{{abbreviateFileSize(getCurrentSize(), getTotalSize())}} / {{abbreviateFileSize(getTotalSize(), getTotalSize())}} - {{getTransferPercent()}}%</span>
-      <br>
-      <button (click)="cancelTransfer()" class="btn btn-danger">Cancel</button>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Transfer in progress</ng-template>
+        
+        <mat-progress-bar [mode]="'determinate'" [value]="getTransferPercent()"></mat-progress-bar>
+        <span *ngIf="getTotalSize() > 0" class="file-size-display my-2">{{abbreviateFileSize(getCurrentSize(), getTotalSize())}} / {{abbreviateFileSize(getTotalSize(), getTotalSize())}} - {{getTransferPercent()}}%</span>
+        <button (click)="cancelTransfer()" class="btn btn-danger">Cancel</button>
+        
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Download</ng-template>
+      
+      <p>Your file was automatically downloaded.</p>
+      
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
       </div>
-    </form>
-  </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Download</ng-template>
-    Your file was automatically downloaded.
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-    </div>
-  </mat-step>
-</mat-horizontal-stepper>
+    </mat-step>
+  </mat-horizontal-stepper>
+</main>
