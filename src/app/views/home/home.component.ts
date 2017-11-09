@@ -12,12 +12,14 @@ export class HomeComponent implements OnInit {
 	
 	constructor(private peerService: PeerService) { }
 
-	ngOnInit() {
-	}
+	ngOnInit() {}
+
 	getPeerId(){
 		this.peerId = this.peerService.getPeerId();
 	}
+
 	createUrl(){
 		this.peerService.createUrl();
 	}
+
 }
