@@ -6,7 +6,7 @@
         
         <mat-progress-bar [mode]="'indeterminate'" [value]="getTransferPercent()"></mat-progress-bar>
         <span class="link-display">https://fancyurl.here/{{connectionUrl}}</span>
-        <button (click)="cancelTransfer()" class="btn btn-danger">Cancel</button>
+        <button (click)="cancelTransfer()" routerLink="/cancel" class="btn btn-danger">Cancel</button>
         
         <!-- Button trigger modal -->
         <button type="button" data-toggle="modal" data-target="#locationApprovalModal" class="btn btn-success">
@@ -26,12 +26,12 @@
         
         <mat-progress-bar [mode]="'determinate'" [value]="getTransferPercent()"></mat-progress-bar>
         <span *ngIf="getTotalSize() > 0" class="file-size-display my-2">{{abbreviateFileSize(getCurrentSize(), getTotalSize())}} / {{abbreviateFileSize(getTotalSize(), getTotalSize())}} - {{getTransferPercent()}}%</span>
-        <button (click)="cancelTransfer()" class="btn btn-danger">Cancel</button>
+        <button (click)="cancelTransfer()" routerLink="/cancel" class="btn btn-danger">Cancel</button>
 
       </form>
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Download</ng-template>
+      <ng-template matStepLabel>Complete</ng-template>
       
       <p>Your file was successfully transfered.</p>
       

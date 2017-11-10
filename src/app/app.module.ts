@@ -11,11 +11,13 @@ import { HomeComponent } from './views/home/home.component';
 import { TransferApprovalComponent } from './views/transfer-approval/transfer-approval.component';
 import { FileTransferStepperComponent } from './views/file-transfer-stepper/file-transfer-stepper.component';
 import { FileDownloadComponent } from './views/file-download/file-download.component';
+import { TransferCancelledComponent } from './views/transfer-cancelled/transfer-cancelled.component';
 import { PeerService } from './shared/api/peer.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'transfer', component: FileTransferStepperComponent},
+  { path: 'cancel', component: TransferCancelledComponent},
   { path: ':code', component: FileDownloadComponent},
 ];
 
@@ -26,6 +28,7 @@ const appRoutes: Routes = [
     TransferApprovalComponent,
     FileTransferStepperComponent,
     FileDownloadComponent,
+    TransferCancelledComponent,
   ],
   imports: [
     BrowserModule,
