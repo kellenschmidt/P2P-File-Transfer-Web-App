@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PeerService } from '../../shared/api/peer.service';
 
@@ -15,6 +15,7 @@ export class FileTransferStepperComponent implements OnInit {
   totalSize: number = 2200000;
   connectionUrl: string = '';
   peerId: any;
+  @ViewChild('stepper') stepper;
 
   constructor(private _formBuilder: FormBuilder,
               private peerService: PeerService) { }
@@ -60,6 +61,14 @@ export class FileTransferStepperComponent implements OnInit {
 
   cancelTransfer() {
     console.log("Transfer canceled");
+  }
+
+  handleApproval(isApproved: boolean) {
+    if(isApproved) {
+      this.stepper.selectedIndex = 1;
+    } else {
+      this.cancelTransfer();
+    }
   }
 
   ngOnInit() {

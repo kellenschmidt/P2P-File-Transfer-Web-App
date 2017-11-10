@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-transfer-approval',
@@ -8,10 +8,15 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TransferApprovalComponent implements OnInit {
 
   @Input('locationName') receiverLocation;
+  @Output('approval') approved = new EventEmitter<boolean>();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  sendApproval(isApproved: boolean) {
+    this.approved.emit(isApproved);
   }
 
 }

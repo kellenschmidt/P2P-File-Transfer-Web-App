@@ -1,5 +1,5 @@
 <main>
-  <mat-horizontal-stepper [linear]="false">
+  <mat-horizontal-stepper [linear]="false" #stepper>
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Share link</ng-template>
@@ -15,11 +15,7 @@
           
         <!-- Modal -->
         <div class="modal fade" id="locationApprovalModal" tabindex="-1" role="dialog" aria-labelledby="locationApprovalModalLabel" aria-hidden="true">
-          <app-transfer-approval locationName="Dallas, TX"></app-transfer-approval>
-        </div>
-  
-        <div>
-          <button mat-button matStepperNext>Next</button>
+          <app-transfer-approval locationName="Dallas, TX" (approval)="handleApproval($event)"></app-transfer-approval>
         </div>
 
       </form>
@@ -31,11 +27,6 @@
         <mat-progress-bar [mode]="'determinate'" [value]="getTransferPercent()"></mat-progress-bar>
         <span *ngIf="getTotalSize() > 0" class="file-size-display my-2">{{abbreviateFileSize(getCurrentSize(), getTotalSize())}} / {{abbreviateFileSize(getTotalSize(), getTotalSize())}} - {{getTransferPercent()}}%</span>
         <button (click)="cancelTransfer()" class="btn btn-danger">Cancel</button>
-        
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
 
       </form>
     </mat-step>
@@ -44,9 +35,6 @@
       
       <p>Your file was successfully transfered.</p>
       
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-      </div>
     </mat-step>
   </mat-horizontal-stepper>
 </main>
