@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
-import { FileTransferComponent } from './views/file-transfer/file-transfer.component';
 import { MatProgressBarModule, MatStepperModule, MatInputModule, MatButtonModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TransferApprovalComponent } from './views/transfer-approval/transfer-approval.component';
@@ -16,7 +15,6 @@ import { PeerService } from './shared/api/peer.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
-  { path: 'transfer', component: FileTransferComponent},
   { path: 'stepper', component: FileTransferStepperComponent},
 ];
 
@@ -24,7 +22,6 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     HomeComponent,
-    FileTransferComponent,
     TransferApprovalComponent,
     FileTransferStepperComponent,
   ],
@@ -41,6 +38,6 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
   ],
   providers: [PeerService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
