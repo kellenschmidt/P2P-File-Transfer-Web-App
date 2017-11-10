@@ -1,21 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatProgressBarModule, MatStepperModule, MatInputModule, MatButtonModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
-import { MatProgressBarModule, MatStepperModule, MatInputModule, MatButtonModule } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TransferApprovalComponent } from './views/transfer-approval/transfer-approval.component';
 import { FileTransferStepperComponent } from './views/file-transfer-stepper/file-transfer-stepper.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { FileDownloadComponent } from './views/file-download/file-download.component';
 import { PeerService } from './shared/api/peer.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
-  { path: 'stepper', component: FileTransferStepperComponent},
+  { path: 'transfer', component: FileTransferStepperComponent},
+  { path: ':code', component: FileDownloadComponent},
 ];
 
 @NgModule({
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
     HomeComponent,
     TransferApprovalComponent,
     FileTransferStepperComponent,
+    FileDownloadComponent,
   ],
   imports: [
     BrowserModule,
