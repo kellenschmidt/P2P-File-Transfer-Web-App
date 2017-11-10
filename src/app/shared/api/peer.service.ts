@@ -21,6 +21,7 @@ export class PeerService {
 			});
 		});
 	}
+	
 	getPeerId(): any{
 		console.log("PeerId:" + this.peerId);
 		return this.peerId;

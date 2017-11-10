@@ -5,7 +5,7 @@
         <ng-template matStepLabel>Share link</ng-template>
         
         <mat-progress-bar [mode]="'indeterminate'" [value]="getTransferPercent()"></mat-progress-bar>
-        <span class="link-display">https://p2pfile.download/abc</span>
+        <span class="link-display">https://fancyurl.here/{{connectionUrl}}</span>
         <button (click)="cancelTransfer()" class="btn btn-danger">Cancel</button>
         
         <!-- Button trigger modal -->
@@ -42,7 +42,7 @@
     <mat-step>
       <ng-template matStepLabel>Download</ng-template>
       
-      <p>Your file was automatically downloaded.</p>
+      <p>Your file was successfully transfered.</p>
       
       <div>
         <button mat-button matStepperPrevious>Back</button>
