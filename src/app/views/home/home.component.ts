@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute } from '@angular/router';
 import { PeerService } from '../../shared/api/peer.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { PeerService } from '../../shared/api/peer.service';
 export class HomeComponent implements OnInit {
 	peerId: any;
 	
-	constructor(private peerService: PeerService) { }
+	constructor(private peerService: PeerService, private route: ActivatedRoute) { }
 
 	ngOnInit() {
 	}
@@ -19,5 +20,8 @@ export class HomeComponent implements OnInit {
 	}
 	createUrl(){
 		this.peerService.createUrl();
+	}
+	initConn(remotePeerId: any){
+		this.peerService.initConn(remotePeerId);
 	}
 }

@@ -26,15 +26,22 @@ export class PeerService {
 		return this.peerId;
 	}
 	
+	// In the future this should take the current url in as an input, and middleman the connection 
+	initConn(remotePeerId: any){
+		this.connectToPeer(remotePeerId);
+	}
+	
 	// We only want this service to be able to initiate a connection with a remote peer
 	private connectToPeer(remotePeerId: any) {
 		var dataConn = this.peer.connect(remotePeerId);
-		console.log("Connecting to peer placeholder");
+		dataConn.on('open', function(){
+			dataConn.send('Hello! You are peerId ' + remotePeerId + ', greetings from peerId ' + this.peerId);
+		});
 	}
 	
 	// SQL server will have a table with two columns: {url}|{peerID}
 	createUrl(){
-		console.log("Creating url placeholder");
+		console.log("Generating url...");
 		// Can be replaced with a more human-readable extension in the future
 		var urlext = Math.random().toString(36).substr(2,5);
 		console.log(this.peerId + ":" + urlext);
