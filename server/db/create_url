@@ -1,0 +1,6 @@
+-- Column: public.host_data.url
+
+-- ALTER TABLE public.host_data DROP COLUMN url;
+
+ALTER TABLE public.host_data
+    ADD COLUMN url text COLLATE pg_catalog."default";
