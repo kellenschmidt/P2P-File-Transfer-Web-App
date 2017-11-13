@@ -9,12 +9,12 @@
     </div>
 
     <div class="modal-body">
-      <p>Map goes here...</p>
+      <agm-map [latitude]="lat" [longitude]="lon"></agm-map>
     </div>
     
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Decline</button>
-      <button type="button" class="btn btn-primary">Approve</button>
+      <button type="button" class="btn btn-secondary" (click)="sendApproval(false)" data-dismiss="modal">Decline</button>
+      <button type="button" class="btn btn-primary" (click)="sendApproval(true)" data-dismiss="modal">Approve</button>
     </div>
 
   </div>

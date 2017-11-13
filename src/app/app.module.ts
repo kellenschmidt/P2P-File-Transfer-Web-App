@@ -1,36 +1,35 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatProgressBarModule, MatStepperModule, MatInputModule, MatButtonModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
-import { FileTransferComponent } from './views/file-transfer/file-transfer.component';
-import { MatProgressBarModule, MatStepperModule, MatInputModule, MatButtonModule } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TransferApprovalComponent } from './views/transfer-approval/transfer-approval.component';
 import { FileTransferStepperComponent } from './views/file-transfer-stepper/file-transfer-stepper.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { App1Component } from './views/input-file/app1.component';
-import { InputFileComponent } from './views/input-file/input-file.component';
-import { ByteFormatPipe } from './views/input-file/byte-format.pipe';
+import { FileDownloadComponent } from './views/file-download/file-download.component';
+import { TransferCancelledComponent } from './views/transfer-cancelled/transfer-cancelled.component';
+import { PeerService } from './shared/api/peer.service';
+import { AgmCoreModule } from '@agm/core';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
-  { path: 'transfer', component: FileTransferComponent},
-  { path: 'stepper', component: FileTransferStepperComponent},
+  { path: 'transfer', component: FileTransferStepperComponent},
+  { path: 'cancel', component: TransferCancelledComponent},
+  { path: ':code', component: FileDownloadComponent},
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    FileTransferComponent,
     TransferApprovalComponent,
     FileTransferStepperComponent,
-    App1Component,
-    InputFileComponent,
-    ByteFormatPipe,
+    FileDownloadComponent,
+    TransferCancelledComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,9 +41,12 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCNiDGEJK09Bb1A_CRi8-bOJwlhKF8ox3g'
+    }),
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [],
+  providers: [PeerService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

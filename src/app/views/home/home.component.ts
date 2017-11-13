@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute } from '@angular/router';
+import { PeerService } from '../../shared/api/peer.service';
 
 @Component({
   selector: 'app-home',
@@ -6,19 +9,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+	constructor(private peerService: PeerService, private route: ActivatedRoute) { }
 
-  placeholderText: string = ""
-  valueText: string = ""
-
-  handleFileSelection(event) {
-    alert(event);
-    this.placeholderText = "Selected file";
-    this.valueText = event;
-  }
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+	ngOnInit() {
+	}
+	getPeerId(){
+		this.peerId = this.peerService.getPeerId();
+	}
+	createUrl(){
+		this.peerService.createUrl();
+	}
+	initConn(remotePeerId: any){
+		this.peerService.initConn(remotePeerId);
+	}
 }

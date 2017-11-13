@@ -1,5 +1,0 @@
-<h3>{{this.pageHeading}}</h3>
-<mat-progress-bar [mode]="getTotalSize() > 0 ? 'determinate' : 'indeterminate'" [value]="getTransferPercent()"></mat-progress-bar>
-<span *ngIf="getTotalSize() == 0">https://p2pfile.download/abc</span>
-<span *ngIf="getTotalSize() > 0">{{abbreviateFileSize(getCurrentSize(), getTotalSize())}} / {{abbreviateFileSize(getTotalSize(), getTotalSize())}} - {{getTransferPercent()}}%</span>
-<button (click)="cancelTransfer()">Cancel</button>
