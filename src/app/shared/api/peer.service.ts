@@ -21,6 +21,7 @@ export class PeerService {
 			});
 		});
 	}
+	
 	getPeerId(): any{
 		console.log("PeerId:" + this.peerId);
 		return this.peerId;
@@ -43,9 +44,20 @@ export class PeerService {
 	createUrl(){
 		console.log("Generating url...");
 		// Can be replaced with a more human-readable extension in the future
-		var urlext = Math.random().toString(36).substr(2,5);
+		var urlext = this.generateUrlCode();
 		console.log(this.peerId + ":" + urlext);
 		return urlext;
 	}
+
+	generateUrlCode() {
+		var code = "";
+		var keyspace = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	  
+		for (var i = 0; i < 3; i++)
+		  code += keyspace.charAt(Math.floor(Math.random() * keyspace.length));
+	  
+		// reutrn Math.random().toString(36).substr(2,5);
+		return code;
+	  }
 
 }

@@ -1,7 +1,7 @@
-<p>
-  This is the home page :^)<br/>
-  "The (carrot nose) is a funny thing to specify" - meg
-</p>
-<button (click)="getPeerId()">Get peerId</button>
-<button (click)="createUrl()">Generate URL</button>
-<button (click)="initConn()">Initiate Connection</button>
+<main class="text-center">
+  <h1 class="title">File Transferer</h1>
+
+  <input class="top-left" id="fi-input" multiple type="file"/>
+  <label id="fi-label" for="fi-input" class="btn btn-primary top-left">Choose Files</label>
+  <button id="start-transfer-btn" class="btn btn-info" routerLink="/transfer">Initiate transfer</button>
+</main>
