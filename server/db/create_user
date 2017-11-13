@@ -1,0 +1,10 @@
+-- User: postgres
+-- DROP USER postgres;
+
+CREATE USER postgres WITH
+  LOGIN
+  SUPERUSER
+  INHERIT
+  CREATEDB
+  CREATEROLE
+  REPLICATION;
