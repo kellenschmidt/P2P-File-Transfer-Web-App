@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileTransferComponent } from './file-transfer.component';
+import { TransferCancelledComponent } from './transfer-cancelled.component';
 
-describe('FileTransferComponent', () => {
-  let component: FileTransferComponent;
-  let fixture: ComponentFixture<FileTransferComponent>;
+describe('TransferCancelledComponent', () => {
+  let component: TransferCancelledComponent;
+  let fixture: ComponentFixture<TransferCancelledComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FileTransferComponent ]
+      declarations: [ TransferCancelledComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FileTransferComponent);
+    fixture = TestBed.createComponent(TransferCancelledComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

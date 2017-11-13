@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { PeerService } from '../../shared/api/peer.service';
 
 @Component({
   selector: 'app-home',
@@ -8,18 +6,9 @@ import { PeerService } from '../../shared/api/peer.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-	peerId: any;
 	
-	constructor(private peerService: PeerService) { }
+	constructor() { }
 
 	ngOnInit() {}
-
-	getPeerId(){
-		this.peerId = this.peerService.getPeerId();
-	}
-
-	createUrl(){
-		this.peerService.createUrl();
-	}
 
 }
