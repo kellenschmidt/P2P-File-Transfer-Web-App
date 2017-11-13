@@ -13,6 +13,7 @@ import { FileTransferStepperComponent } from './views/file-transfer-stepper/file
 import { FileDownloadComponent } from './views/file-download/file-download.component';
 import { TransferCancelledComponent } from './views/transfer-cancelled/transfer-cancelled.component';
 import { PeerService } from './shared/api/peer.service';
+import { AgmCoreModule } from '@agm/core';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -40,6 +41,9 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCNiDGEJK09Bb1A_CRi8-bOJwlhKF8ox3g'
+    }),
     RouterModule.forRoot(appRoutes),
   ],
   providers: [PeerService],
