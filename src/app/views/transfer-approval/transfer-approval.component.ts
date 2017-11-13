@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { MapsService } from '../../shared/api/maps.service'
 
 @Component({
   selector: 'app-transfer-approval',
@@ -6,29 +7,30 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./transfer-approval.component.scss']
 })
 export class TransferApprovalComponent implements OnInit {
-
-  @Input('locationName') receiverLocation;
+  
   @Output('approval') approved = new EventEmitter<boolean>();
 
   lat: number = 51.678418;
   lon: number = 7.809007;
+  receiverLocation: string;
 
-  constructor() { }
+  constructor(private mapsService: MapsService) { }
 
   setLocation() {
     if(navigator.geolocation){
-      console.log(navigator.geolocation.getCurrentPosition(this.setLocation.bind(this));
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.lon = position.coords.longitude;
+        console.log("Location: " + this.lat + ", " + this.lon);
+      });
+    } else {
+      console.log("Could not acquire current location");
     }
   }
 
-  setLocation(position: any) {
-    this.lat = position.coords.latitude;
-    this.lon = position.coords.longitude;
-  }
-
   // TODO(Kellen): Get city name from lat and lon
-  getReverseGeocode() {
-    // https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyA5Bc1HsGFvr_02WVl_H4V2kdDblCe38F4
+  setReverseGeocode() {
+    this.receiverLocation = this.mapsService.getCurrentCity() + ", " + this.mapsService.getCurrentState() + ", " + this.mapsService.getCurrentCountry();
   }
 
   ngOnInit() {

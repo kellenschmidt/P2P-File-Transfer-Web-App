@@ -9,7 +9,9 @@
     </div>
 
     <div class="modal-body">
-      <agm-map [latitude]="lat" [longitude]="lon"></agm-map>
+      <agm-map [latitude]="lat" [longitude]="lon">
+        <agm-marker [latitude]="lat" [longitude]="lon"></agm-marker>
+      </agm-map>
     </div>
     
     <div class="modal-footer">
