@@ -22,11 +22,19 @@ export class FileDownloadComponent implements OnInit {
   }
 
   requestConnection(url: string) {
+	// Build JSON location object
+	let loc = {
+		"City": this.currentCity,
+		"State": this.currentState,
+		"Country": this.currentCountry,
+		"lat": this.lat,
+		"long": this.lon
+	}
     // Request to connect, then get peerId from db
     //var connection = this.initConn('<remotePeerId>')
   }
-  private initConn(remotePeerId: any) {
-    this.peerService.initConn(remotePeerId);
+  private initConn(remotePeerId: any, loc: Object) {
+    this.peerService.initConn(remotePeerId, loc);
   }
   setGeoLocation() {
     if (navigator.geolocation) {
