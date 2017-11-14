@@ -5,7 +5,7 @@ export class PeerService {
 
     file: File;
 	peer: any;
-	peerId: any;
+	peerId: string;
 
 	constructor() {
 	// Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
@@ -22,22 +22,35 @@ export class PeerService {
 		});
 	}
 	
-	getPeerId(): any{
+	getPeerId(): string{
 		console.log("PeerId:" + this.peerId);
 		return this.peerId;
 	}
 	
 	// In the future this should take the current url in as an input, and middleman the connection 
-	initConn(remotePeerId: any){
-		this.connectToPeer(remotePeerId);
+	// Returns a DataConnection object
+	initConn(url: string): any {
+		// Get remotePeerId from db
+		var remotePeerId = "";
+		return this.connectToPeer(remotePeerId);
 	}
 	
 	// We only want this service to be able to initiate a connection with a remote peer
-	private connectToPeer(remotePeerId: any) {
+	// Returns a DataConnection object
+	private connectToPeer(remotePeerId: string): any {
 		var dataConn = this.peer.connect(remotePeerId);
 		dataConn.on('open', function(){
-			dataConn.send('Hello! You are peerId ' + remotePeerId + ', greetings from peerId ' + this.peerId);
+			dataConn.send(
+			{ 
+				"Greeting": 'Hello! You are peerId ' + remotePeerId + ', greetings from peerId ' + this.peerId,
+				"City": 'Dallo.us',
+				"State": 'Taxus',
+				"Country": 'EEUU',
+				"lat": 154,
+				"long": 1515,
+			});
 		});
+		return dataConn;
 	}
 	
 	// SQL server will have a table with two columns: {url}|{peerID}
