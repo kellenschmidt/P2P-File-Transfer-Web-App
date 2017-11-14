@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MapsService } from '../../shared/api/maps.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-transfer-approval',
@@ -6,33 +8,17 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./transfer-approval.component.scss']
 })
 export class TransferApprovalComponent implements OnInit {
-
-  @Input('locationName') receiverLocation;
+  
   @Output('approval') approved = new EventEmitter<boolean>();
-
-  lat: number = 51.678418;
-  lon: number = 7.809007;
+  @Input('city') currentCity: string;
+  @Input('state') currentState: string;
+  @Input('country') currentCountry: string;
+  @Input('latitude') lat: string;
+  @Input('longitude') lon: string;
 
   constructor() { }
-
-  setLocation() {
-    if(navigator.geolocation){
-      console.log(navigator.geolocation.getCurrentPosition(this.setLocation.bind(this));
-    }
-  }
-
-  setLocation(position: any) {
-    this.lat = position.coords.latitude;
-    this.lon = position.coords.longitude;
-  }
-
-  // TODO(Kellen): Get city name from lat and lon
-  getReverseGeocode() {
-    // https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyA5Bc1HsGFvr_02WVl_H4V2kdDblCe38F4
-  }
-
-  ngOnInit() {
-  }
+  
+  ngOnInit() {}
 
   sendApproval(isApproved: boolean) {
     this.approved.emit(isApproved);

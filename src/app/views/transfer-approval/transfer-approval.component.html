@@ -2,14 +2,16 @@
   <div class="modal-content">
       
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Approve transfer to <span>{{this.receiverLocation}}</span>?</h5>
+      <h5 class="modal-title" id="exampleModalLabel">Approve transfer to <span>{{currentCity}}, {{currentState}}, {{currentCountry}}</span>?</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
 
     <div class="modal-body">
-      <agm-map [latitude]="lat" [longitude]="lon"></agm-map>
+      <agm-map [latitude]="lat" [longitude]="lon">
+        <agm-marker [latitude]="lat" [longitude]="lon"></agm-marker>
+      </agm-map>
     </div>
     
     <div class="modal-footer">
