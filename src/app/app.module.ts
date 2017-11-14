@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressBarModule, MatStepperModule, MatInputModule, MatButtonModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
@@ -14,6 +14,7 @@ import { FileDownloadComponent } from './views/file-download/file-download.compo
 import { TransferCancelledComponent } from './views/transfer-cancelled/transfer-cancelled.component';
 import { PeerService } from './shared/api/peer.service';
 import { AgmCoreModule } from '@agm/core';
+import { MapsService } from './shared/api/maps.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -40,13 +41,16 @@ const appRoutes: Routes = [
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCNiDGEJK09Bb1A_CRi8-bOJwlhKF8ox3g'
     }),
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [PeerService],
+  providers: [
+    PeerService,
+    MapsService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
