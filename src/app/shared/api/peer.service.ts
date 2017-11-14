@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class PeerService {
@@ -6,6 +7,7 @@ export class PeerService {
     file: File;
 	peer: any;
 	peerId: string;
+	receivedData: Observable<any>;
 
 	constructor() {
 	// Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
@@ -17,7 +19,7 @@ export class PeerService {
 		}, 3000);
 		this.peer.on('connection', function (conn) {
 			conn.on('data', function (data) {
-				console.log(data);
+				this.receivedData = Observable.of(data);
 			});
 		});
 	}
@@ -27,27 +29,29 @@ export class PeerService {
 		return this.peerId;
 	}
 	
-	// In the future this should take the current url in as an input, and middleman the connection 
+	// In the future this should take the current url in as an input, and middleman the connection
+	// Inputs: The remote peer ID and a JSON object with City, State, Country, lat, and long fields
 	// Returns a DataConnection object
-	initConn(url: string): any {
+	initConn(url: string, loc: any): any {
 		// Get remotePeerId from db
 		var remotePeerId = "";
-		return this.connectToPeer(remotePeerId);
+		return this.connectToPeer(remotePeerId, loc);
 	}
 	
 	// We only want this service to be able to initiate a connection with a remote peer
+	// Inputs: The remote peer ID and a JSON object with City, State, Country, lat, and long fields
 	// Returns a DataConnection object
-	private connectToPeer(remotePeerId: string): any {
+	private connectToPeer(remotePeerId: string, loc: any): any {
 		var dataConn = this.peer.connect(remotePeerId);
 		dataConn.on('open', function(){
 			dataConn.send(
 			{ 
 				"Greeting": 'Hello! You are peerId ' + remotePeerId + ', greetings from peerId ' + this.peerId,
-				"City": 'Dallo.us',
-				"State": 'Taxus',
-				"Country": 'EEUU',
-				"lat": 154,
-				"long": 1515,
+				"City": loc.City,
+				"State": loc.State,
+				"Country": loc.Country,
+				"lat": loc.lat,
+				"long": loc.long,
 			});
 		});
 		return dataConn;
