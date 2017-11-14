@@ -9,6 +9,8 @@ import { PeerService } from '../../shared/api/peer.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+	peerId: string;
+	
 	constructor(private peerService: PeerService, private route: ActivatedRoute) { }
 
 	ngOnInit() {
@@ -18,8 +20,5 @@ export class HomeComponent implements OnInit {
 	}
 	createUrl(){
 		this.peerService.createUrl();
-	}
-	initConn(remotePeerId: any){
-		this.peerService.initConn(remotePeerId);
 	}
 }
