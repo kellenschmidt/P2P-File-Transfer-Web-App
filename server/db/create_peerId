@@ -1,6 +1,0 @@
--- Column: public.host_data."peerId"
-
--- ALTER TABLE public.host_data DROP COLUMN "peerId";
-
-ALTER TABLE public.host_data
-    ADD COLUMN "peerId" integer NOT NULL;

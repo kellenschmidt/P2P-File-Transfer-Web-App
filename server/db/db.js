@@ -10,7 +10,7 @@ exports.connect = function(done) {
 	client.connect();
 }
 exports.getByUrl = function(url, done){
-	const query = 'SELECT peerId FROM <tablename> WHERE url = ?';
+	const query = 'SELECT peerId FROM host_data WHERE url = ?';
 	client.query(query, url)
 		.then(res => {
 			console.log("GetbyUrl query completed successfully");
@@ -19,7 +19,7 @@ exports.getByUrl = function(url, done){
 }
 
 exports.create = function(peerId, url, done){
-	const query = 'INSERT INTO <tablename> SET peerId=$1 url=$2';
+	const query = 'INSERT INTO host_data SET peerId=$1 url=$2';
 	client.query(query, [peerId, url])
 		.then(res =>{
 			console.log("Create query completed successfully");

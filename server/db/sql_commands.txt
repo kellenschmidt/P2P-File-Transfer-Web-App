@@ -1,0 +1,58 @@
+-- Create DB
+
+CREATE DATABASE "P2PFileTransfer"
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'C'
+    LC_CTYPE = 'C'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+-- Create table
+
+CREATE TABLE public.host_data
+(
+    "peerId" string NOT NULL,
+    url text COLLATE pg_catalog."default",
+    CONSTRAINT host_data_pkey PRIMARY KEY ("peerId")
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.host_data
+    OWNER to postgres;
+
+
+-- Add column: peerId
+
+ALTER TABLE public.host_data
+    ADD COLUMN "peerId" text COLLATE pg_catalog."default" NOT NULL;
+
+-- Add column: url
+
+ALTER TABLE public.host_data
+    ADD COLUMN url text COLLATE pg_catalog."default";
+
+-- Create user
+
+CREATE USER postgres WITH
+  LOGIN
+  SUPERUSER
+  INHERIT
+  CREATEDB
+  CREATEROLE
+  REPLICATION;
+
+
+
+
+
+
+
+
+
+
+
