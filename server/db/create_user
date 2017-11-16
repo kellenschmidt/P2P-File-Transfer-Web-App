@@ -1,10 +1,12 @@
--- User: postgres
--- DROP USER postgres;
+-- User: "P2pft"
+-- DROP USER "P2pft";
 
-CREATE USER postgres WITH
+CREATE USER "P2pft" WITH
   LOGIN
-  SUPERUSER
+  NOSUPERUSER
   INHERIT
-  CREATEDB
-  CREATEROLE
-  REPLICATION;
+  NOCREATEDB
+  NOCREATEROLE
+  NOREPLICATION;
+
+COMMENT ON ROLE "P2pft" IS 'User for p2pfiletransfer application';

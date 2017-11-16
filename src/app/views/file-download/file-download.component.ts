@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { PeerService } from '../../shared/api/peer.service';
 import { MapsService } from '../../shared/api/maps.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -8,17 +10,34 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./file-download.component.scss']
 })
 export class FileDownloadComponent implements OnInit {
-
+  url: string;
   lat: number;
   lon: number;
   currentCity: string;
   currentState: string;
   currentCountry: string;
 
-  constructor(private mapsService: MapsService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private peerService: PeerService, private mapsService: MapsService) {
+    this.url = route.snapshot.url[0].path;
+  }
 
+  requestConnection(url: string) {
+	// Build JSON location object
+	let loc = {
+		"City": this.currentCity,
+		"State": this.currentState,
+		"Country": this.currentCountry,
+		"lat": this.lat,
+		"long": this.lon
+	}
+    // Request to connect, then get peerId from db
+    //var connection = this.initConn('<remotePeerId>')
+  }
+  private initConn(remotePeerId: any, loc: Object) {
+    this.peerService.initConn(remotePeerId, loc);
+  }
   setGeoLocation() {
-    if(navigator.geolocation){
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lon = position.coords.longitude;
@@ -30,7 +49,7 @@ export class FileDownloadComponent implements OnInit {
 
   setReverseGeocode() {
     this.mapsService.setReverseGeocode(this.lat, this.lon)
-    .subscribe(
+      .subscribe(
       (data) => {
         let addressComponents: any[] = data['results'][0]['address_components'];
         this.setLocationText(addressComponents);
@@ -44,19 +63,19 @@ export class FileDownloadComponent implements OnInit {
           // The response body may contain clues as to what went wrong,
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
-      }  
-    );
+      }
+      );
   }
 
   setLocationText(addressComponents: any[]) {
-    for(let i=0; i<addressComponents.length; i++) {
-      if(addressComponents[i]['types'][0] == 'locality') {
+    for (let i = 0; i < addressComponents.length; i++) {
+      if (addressComponents[i]['types'][0] == 'locality') {
         this.currentCity = addressComponents[i]['long_name'];
       }
-      if(addressComponents[i]['types'][0] == 'administrative_area_level_1') {
+      if (addressComponents[i]['types'][0] == 'administrative_area_level_1') {
         this.currentState = addressComponents[i]['long_name'];
       }
-      if(addressComponents[i]['types'][0] == 'country') {
+      if (addressComponents[i]['types'][0] == 'country') {
         this.currentCountry = addressComponents[i]['long_name'];
       }
     }
@@ -66,5 +85,4 @@ export class FileDownloadComponent implements OnInit {
     this.setGeoLocation();
     this.setReverseGeocode();
   }
-
 }
