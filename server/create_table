@@ -4,9 +4,10 @@
 
 CREATE TABLE public.host_data
 (
-    "peerId" integer NOT NULL,
-    url text COLLATE pg_catalog."default",
-    CONSTRAINT host_data_pkey PRIMARY KEY ("peerId")
+    peerid text COLLATE pg_catalog."default" NOT NULL,
+    url text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT host_data_pkey PRIMARY KEY (peerid),
+    CONSTRAINT host_data_url_key UNIQUE (url)
 )
 WITH (
     OIDS = FALSE
@@ -14,4 +15,4 @@ WITH (
 TABLESPACE pg_default;
 
 ALTER TABLE public.host_data
-    OWNER to postgres;
+    OWNER to "P2pft";
