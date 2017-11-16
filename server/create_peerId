@@ -1,6 +1,0 @@
--- Column: public.host_data.peerid
-
--- ALTER TABLE public.host_data DROP COLUMN peerid;
-
-ALTER TABLE public.host_data
-    ADD COLUMN peerid text COLLATE pg_catalog."default" NOT NULL;
