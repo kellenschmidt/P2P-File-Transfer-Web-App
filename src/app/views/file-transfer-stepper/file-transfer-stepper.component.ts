@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PeerService } from '../../shared/api/peer.service';
+import { Location } from '../../shared/api/location';
 
 @Component({
   selector: 'app-file-transfer-stepper',
@@ -15,6 +16,7 @@ export class FileTransferStepperComponent implements OnInit {
   totalSize: number = 2200000;
   connectionUrl: string = '';
   peerId: any;
+  recieverLocation: Location;
   @ViewChild('stepper') stepper;
 
   constructor(private _formBuilder: FormBuilder,
@@ -26,10 +28,6 @@ export class FileTransferStepperComponent implements OnInit {
 
 	createUrl(){
 		this.connectionUrl = this.peerService.createUrl();
-	}
-
-	initiateTransfer() {
-    this.createUrl();
 	}
 
   abbreviateFileSize(oldSize: number, base: number) {
@@ -79,7 +77,8 @@ export class FileTransferStepperComponent implements OnInit {
       secondCtrl: ['', Validators.required]
     });
 
-    this.initiateTransfer();
+    this.createUrl();
+    this.peerService.receiveData(this.recieverLocation);
   }
 
 }
