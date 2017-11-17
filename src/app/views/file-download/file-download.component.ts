@@ -17,6 +17,12 @@ export class FileDownloadComponent implements OnInit {
   currentState: string;
   currentCountry: string;
 
+  ngOnInit() {
+    this.setGeoLocation();
+    this.setReverseGeocode();
+    this.requestConnection(this.url);
+  }
+
   constructor(private router: Router, private route: ActivatedRoute, private peerService: PeerService, private mapsService: MapsService) {
     this.url = route.snapshot.url[0].path;
   }
@@ -30,12 +36,10 @@ export class FileDownloadComponent implements OnInit {
 		"lat": this.lat,
 		"long": this.lon
 	}
-    // Request to connect, then get peerId from db
-    //var connection = this.initConn('<remotePeerId>')
+    // Request to connect by giving url and location object
+    var connection = this.peerService.initConn(this.url, loc);
   }
-  private initConn(remotePeerId: any, loc: Object) {
-    this.peerService.initConn(remotePeerId, loc);
-  }
+
   setGeoLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -79,10 +83,5 @@ export class FileDownloadComponent implements OnInit {
         this.currentCountry = addressComponents[i]['long_name'];
       }
     }
-  }
-
-  ngOnInit() {
-    this.setGeoLocation();
-    this.setReverseGeocode();
   }
 }
