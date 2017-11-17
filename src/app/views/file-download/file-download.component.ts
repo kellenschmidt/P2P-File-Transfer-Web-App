@@ -28,14 +28,14 @@ export class FileDownloadComponent implements OnInit {
   }
 
   requestConnection(url: string) {
-	// Build JSON location object
-	let loc = {
-		"City": this.currentCity,
-		"State": this.currentState,
-		"Country": this.currentCountry,
-		"lat": this.lat,
-		"long": this.lon
-	}
+    // Build JSON location object
+    let loc = {
+      "City": this.currentCity,
+      "State": this.currentState,
+      "Country": this.currentCountry,
+      "lat": this.lat,
+      "long": this.lon
+    }
     // Request to connect by giving url and location object
     var connection = this.peerService.initConn(this.url, loc);
   }
