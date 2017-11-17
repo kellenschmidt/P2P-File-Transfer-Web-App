@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
   res.send('api works');
 });
 
+<<<<<<< HEAD
 db.connect(function(err) {
 	if(err){
 		console.log("Unable to connect to db");
@@ -35,5 +36,8 @@ db.create(function(peerid, url, err) {
   }
 });
 
+=======
+router.get()
+>>>>>>> fb0a8b1b003ee61c82f2f7c1130148b1feeb879a
 
 module.exports = router;
