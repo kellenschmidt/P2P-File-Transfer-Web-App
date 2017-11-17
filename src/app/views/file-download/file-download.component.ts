@@ -29,9 +29,9 @@ export class FileDownloadComponent implements OnInit {
     var connection = this.peerService.initConn(this.url, this.currentLocation);
   }
 
-  setGeoLocation() {
+  async setGeoLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+      await navigator.geolocation.getCurrentPosition((position) => {
         this.currentLocation.latitude = position.coords.latitude;
         this.currentLocation.longitude = position.coords.longitude;
       });
@@ -40,8 +40,8 @@ export class FileDownloadComponent implements OnInit {
     }
   }
 
-  setReverseGeocode() {
-    this.mapsService.setReverseGeocode(this.currentLocation.latitude, this.currentLocation.longitude)
+  async setReverseGeocode() {
+    await this.mapsService.setReverseGeocode(this.currentLocation.latitude, this.currentLocation.longitude)
       .subscribe(
       (data) => {
         let addressComponents: any[] = data['results'][0]['address_components'];
