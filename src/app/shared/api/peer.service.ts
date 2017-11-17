@@ -9,19 +9,21 @@ export class PeerService {
   peer: any;
   peerId: string;
   remotePeerId: string;
-  receivedData: Observable<any>;
+  public receivedData: Observable<any>;
 
   constructor() {
     // Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
     // field please let me know Kellen
-    this.peer = new Peer({ key: '<key>' });
+    this.peer = new Peer({ key: '7599wxdge79442t9' });
     setTimeout(() => {
       this.peerId = this.peer.id;
       console.log("PeerId:" + this.peer.id);
     }, 3000);
     this.peer.on('connection', function (conn) {
       conn.on('data', function (data) {
-        this.receivedData = Observable.of(data);
+        this.receivedData = new Observable(observer => {
+          observer.next(data);
+        });
       });
     });
   }
@@ -36,7 +38,7 @@ export class PeerService {
   // Returns a DataConnection object
   initConn(url: string, loc: Location): any {
     // Get remotePeerId from db
-    this.remotePeerId = "";
+    this.remotePeerId = "ex1uttv701itfbt9";
     return this.connectToPeer(this.remotePeerId, loc);
   }
 
@@ -63,24 +65,24 @@ export class PeerService {
     return dataConn;
   }
 
-  receiveData(location: Location) {
-    this.receivedData.subscribe(
-      data => {
-        console.log('onNext: %s', data)
-        location.latitude = data[0].latitude;
-        location.longitude = data[0].Location;
-        location.city = data[0].city;
-        location.state = data[0].state;
-        location.country = data[0].country;
-      },
-      error => {
-        console.log('onError: %s', error)
-      },
-      () => {
-        console.log('onCompleted')
-      }
-    );
-  }
+  // receiveData(location: Location) {
+  //   this.receivedData.subscribe(
+  //     data => {
+  //       console.log('onNext: %s', data)
+  //       location.latitude = data[0].latitude;
+  //       location.longitude = data[0].Location;
+  //       location.city = data[0].city;
+  //       location.state = data[0].state;
+  //       location.country = data[0].country;
+  //     },
+  //     error => {
+  //       console.log('onError: %s', error)
+  //     },
+  //     () => {
+  //       console.log('onCompleted')
+  //     }
+  //   );
+  // }
 
   // SQL server will have a table with two columns: {url}|{peerID}
   createUrl() {
