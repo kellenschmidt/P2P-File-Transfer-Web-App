@@ -7,7 +7,9 @@ const client = new Client({
 		port: 3211,
 });
 exports.connect = function(done) {
-	client.connect();
+	client.connect(function(err){
+		return console.error("Couldn't connect to postgres ", err);
+	});
 }
 exports.getByUrl = function(url, done){
 	const query = 'SELECT peerid FROM host_data WHERE url = ?';
