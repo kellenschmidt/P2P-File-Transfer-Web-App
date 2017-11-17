@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PeerService } from '../../shared/api/peer.service';
 import { MapsService } from '../../shared/api/maps.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Location } from '../../shared/api/location';
 
 @Component({
   selector: 'app-file-download',
@@ -11,40 +12,28 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class FileDownloadComponent implements OnInit {
   url: string;
-  lat: number;
-  lon: number;
-  currentCity: string;
-  currentState: string;
-  currentCountry: string;
+  currentLocation: Location;
 
   ngOnInit() {
     this.setGeoLocation();
     this.setReverseGeocode();
-    this.requestConnection(this.url);
+    this.requestConnection();
   }
 
   constructor(private router: Router, private route: ActivatedRoute, private peerService: PeerService, private mapsService: MapsService) {
     this.url = route.snapshot.url[0].path;
   }
 
-  requestConnection(url: string) {
-    // Build JSON location object
-    let loc = {
-      "City": this.currentCity,
-      "State": this.currentState,
-      "Country": this.currentCountry,
-      "lat": this.lat,
-      "long": this.lon
-    }
+  requestConnection() {
     // Request to connect by giving url and location object
-    var connection = this.peerService.initConn(this.url, loc);
+    var connection = this.peerService.initConn(this.url, this.currentLocation);
   }
 
   setGeoLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lon = position.coords.longitude;
+        this.currentLocation.latitude = position.coords.latitude;
+        this.currentLocation.longitude = position.coords.longitude;
       });
     } else {
       console.log("Could not acquire current location");
@@ -52,7 +41,7 @@ export class FileDownloadComponent implements OnInit {
   }
 
   setReverseGeocode() {
-    this.mapsService.setReverseGeocode(this.lat, this.lon)
+    this.mapsService.setReverseGeocode(this.currentLocation.latitude, this.currentLocation.longitude)
       .subscribe(
       (data) => {
         let addressComponents: any[] = data['results'][0]['address_components'];
@@ -74,13 +63,13 @@ export class FileDownloadComponent implements OnInit {
   setLocationText(addressComponents: any[]) {
     for (let i = 0; i < addressComponents.length; i++) {
       if (addressComponents[i]['types'][0] == 'locality') {
-        this.currentCity = addressComponents[i]['long_name'];
+        this.currentLocation.city = addressComponents[i]['long_name'];
       }
       if (addressComponents[i]['types'][0] == 'administrative_area_level_1') {
-        this.currentState = addressComponents[i]['long_name'];
+        this.currentLocation.state = addressComponents[i]['long_name'];
       }
       if (addressComponents[i]['types'][0] == 'country') {
-        this.currentCountry = addressComponents[i]['long_name'];
+        this.currentLocation.country = addressComponents[i]['long_name'];
       }
     }
   }

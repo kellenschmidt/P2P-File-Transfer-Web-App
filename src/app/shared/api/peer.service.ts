@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Location } from './location';
 
 @Injectable()
 export class PeerService {
@@ -33,7 +34,7 @@ export class PeerService {
   // In the future this should take the current url in as an input, and middleman the connection
   // Inputs: The remote peer ID and a JSON object with City, State, Country, lat, and long fields
   // Returns a DataConnection object
-  initConn(url: string, loc: any): any {
+  initConn(url: string, loc: Location): any {
     // Get remotePeerId from db
     this.remotePeerId = "";
     return this.connectToPeer(this.remotePeerId, loc);
@@ -42,20 +43,43 @@ export class PeerService {
   // We only want this service to be able to initiate a connection with a remote peer
   // Inputs: The remote peer ID and a JSON object with City, State, Country, lat, and long fields
   // Returns a DataConnection object
-  private connectToPeer(remotePeerId: string, loc: any): any {
+  private connectToPeer(remotePeerId: string, loc: Location): any {
     var dataConn = this.peer.connect(remotePeerId);
     dataConn.on('open', function () {
       dataConn.send(
-        {
-          "Greeting": 'Hello! You are peerId ' + remotePeerId + ', greetings from peerId ' + this.peerId,
-          "City": loc.City,
-          "State": loc.State,
-          "Country": loc.Country,
-          "lat": loc.lat,
-          "long": loc.long,
-        });
+        // {
+        //   "Greeting": 'Hello! You are peerId ' + remotePeerId + ', greetings from peerId ' + this.peerId,
+        //   "city": loc.city,
+        //   "state": loc.state,
+        //   "country": loc.country,
+        //   "lat": loc.latitude,
+        //   "long": loc.longitude,
+        // },
+        [
+          loc, this.peerId
+        ]
+      );
     });
     return dataConn;
+  }
+
+  receiveData(location: Location) {
+    this.receivedData.subscribe(
+      data => {
+        console.log('onNext: %s', data)
+        location.latitude = data[0].latitude;
+        location.longitude = data[0].Location;
+        location.city = data[0].city;
+        location.state = data[0].state;
+        location.country = data[0].country;
+      },
+      error => {
+        console.log('onError: %s', error)
+      },
+      () => {
+        console.log('onCompleted')
+      }
+    );
   }
 
   // SQL server will have a table with two columns: {url}|{peerID}

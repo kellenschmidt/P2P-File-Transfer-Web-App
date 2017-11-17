@@ -7,5 +7,13 @@ main {
   @extend .bg-white;
   @extend .container;
   border-radius: 4px;
-  margin-top: 10rem;
+  @include media-breakpoint-up(xs) { 
+    margin-top: 10rem;
+  }
+  @include media-breakpoint-up(sm) { 
+    margin-top: 16rem;
+  }
+  @include media-breakpoint-up(md) { 
+    margin-top: 20rem;
+  }
 }
