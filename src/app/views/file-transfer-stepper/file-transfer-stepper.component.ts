@@ -14,13 +14,34 @@ export class FileTransferStepperComponent implements OnInit {
   secondFormGroup: FormGroup;
   currentSize: number = 1100000;
   totalSize: number = 2200000;
-  connectionUrl: string = '';
+  connectionUrl: string;
   peerId: any;
   receiverLocation: Location;
   @ViewChild('stepper') stepper;
 
   constructor(private _formBuilder: FormBuilder,
-              private peerService: PeerService) { }
+              private peerService: PeerService) {
+    this.peerService.myObservable.subscribe(
+      data => {
+        console.log('onNext: %s', data)
+
+        this.peerId = data['peerId'];
+        let location: Location = data['location'];
+
+        this.receiverLocation.latitude = location.latitude;
+        this.receiverLocation.longitude = location.longitude;
+        this.receiverLocation.city = location.city;
+        this.receiverLocation.state = location.state;
+        this.receiverLocation.country = location.country;
+      },
+      error => {
+        console.log('onError: %s', error)
+      },
+      () => {
+        console.log('onCompleted')
+      }
+    );
+  }
 
   getPeerId(){
 		this.peerId = this.peerService.getPeerId();
@@ -78,23 +99,6 @@ export class FileTransferStepperComponent implements OnInit {
     });
 
     this.createUrl();
-    // this.peerService.receiveData(this.receiverLocation);
-    this.peerService.receivedData.subscribe(
-      data => {
-        console.log('onNext: %s', data)
-        this.receiverLocation.latitude = data[0].latitude;
-        this.receiverLocation.longitude = data[0].Location;
-        this.receiverLocation.city = data[0].city;
-        this.receiverLocation.state = data[0].state;
-        this.receiverLocation.country = data[0].country;
-      },
-      error => {
-        console.log('onError: %s', error)
-      },
-      () => {
-        console.log('onCompleted')
-      }
-    );
   }
 
 }
