@@ -4,11 +4,16 @@ const client = new Client({
 		host: 'localhost',
 		database: 'P2PFileTransfer',
 		password: 'curTestPass$115',
-		port: 3211,
+		port: 5432,
 });
 exports.connect = function(done) {
-	client.connect(function(err){
-		return console.error("Couldn't connect to postgres ", err);
+	client.connect(function(err) {
+		if(err){
+			console.log("Unable to connect to db");
+			process.exit(1);
+		}else{
+			console.log("Connected to db");
+		}
 	});
 }
 exports.getByUrl = function(url, done){

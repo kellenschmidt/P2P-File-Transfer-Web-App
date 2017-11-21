@@ -13,14 +13,7 @@ const peerapi = require('./server/routes/peer');
 const app = express();
 
 // Connect to db
-db.connect(function(err) {
-	if(err){
-		console.log("Unable to connect to db");
-		process.exit(1);
-	}else{
-		console.log("Connected to db");
-	}
-})
+db.connect();
 
 // Parsers for POST data
 app.use(bodyParser.json());
