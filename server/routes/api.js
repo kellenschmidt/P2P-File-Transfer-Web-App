@@ -11,9 +11,11 @@ router.get('/', (req, res) => {
 router.get('/:url', (req, res) => {
   db.getByUrl(req.params.url, (err, result) => {
     if (err == null) {
-      res.status(200).json({ Status: 'Success', peerId: result });
-    } else if (result.rows.length == 0) {
-      res.status(404).json({ Status: 'Failure', Error: err });
+		if (result.rows.length == 0) {
+			res.status(404).json({ Status: 'Failure', Error: 'No matching peerid found' });
+		}else{
+			res.status(200).json({ Status: 'Success', peerid: result.rows[0].peerid });
+		}
     } else {
       res.status(500).json({ Status: 'Failure', Error: err });
     }
@@ -22,13 +24,13 @@ router.get('/:url', (req, res) => {
 
 // Create new peerId:url relationship in db
 router.post('/', (req, res) => {
-  db.create(req.peerId, req.url, (err, result) => {
-    if (err == null) {
-      res.status(201).json({ Status: 'Success' });
-    } else {
-      res.status(500).json({ Status: 'Failure', Error: err });
-    }
-  })
+	db.create(req.body.peerid, req.body.url, (err, result) => {
+		if (err == null) {
+		  res.status(201).json({ Status: 'Success' });
+		} else {
+		  res.status(500).json({ Status: 'Failure', Error: err });
+		}
+	})
 })
 
 module.exports = router;

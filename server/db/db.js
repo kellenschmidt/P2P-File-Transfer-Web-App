@@ -6,6 +6,7 @@ const client = new Client({
 		password: 'curTestPass$115',
 		port: 5432,
 });
+
 exports.connect = function(done) {
 	client.connect(function(err) {
 		if(err){
@@ -16,24 +17,17 @@ exports.connect = function(done) {
 		}
 	});
 }
+
 exports.getByUrl = function(url, done){
-	const query = 'SELECT peerid FROM host_data WHERE url = ?';
-	client.query(query, url,(err, res) => {
-		if(err){
-			console.log("Error: " + err.stack);
-		} else {
-			console.log(res.rows[0]);
-		}
-	})
+	const query = 'SELECT peerid FROM host_data WHERE url = $1';
+	return client.query(query, [url], (err, res) => {
+		done(err, res);
+	});
 }
 
-exports.create = function(peerId, url, done){
-	const query = 'INSERT INTO host_data SET peerid=$1 url=$2';
-	client.query(query, [peerId, url],(err, res) => {
-		if(err){
-			console.log("Error: " + err.stack);
-		} else {
-			console.log(res.rows[0]);
-		}
-	})
+exports.create = function(peerid, url, done){
+	const query = 'INSERT INTO host_data(peerid, url) VALUES($1,$2) RETURNING *';
+	client.query(query, [peerid, url], (err, res) => {
+		done(err, res);
+	});
 }
