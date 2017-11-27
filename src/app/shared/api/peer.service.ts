@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Location } from './location';
 import { ApiService } from './api.service';
@@ -11,7 +11,8 @@ export class PeerService {
   peerId: string;
   remotePeerId: string;
   connection: any;
-  public receivedData: Observable<any>;
+  @Output() receivedData: EventEmitter<any> = new EventEmitter();
+  //public receivedData: Observable<any>;
 
   constructor(private api: ApiService) {
     // Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
@@ -20,12 +21,14 @@ export class PeerService {
     setTimeout(() => {
       this.peerId = this.peer.id;
       console.log("PeerId:" + this.peer.id);
-    }, 3000);
+    }, 1000);
     this.peer.on('connection', function (conn) {
       conn.on('data', function (data) {
-        this.receivedData = new Observable(observer => {
-          observer.next(data);
-        });
+        //this.receivedData = new Observable(observer => {
+        //  observer.next(data);
+        //});
+        console.log(data);
+        this.receivedData.emit(data);
       });
     });
   }
@@ -60,12 +63,15 @@ export class PeerService {
   // Inputs: The remote peer ID and a JSON object with City, State, Country, lat, and long fields
   // Returns a DataConnection object
   private connectToPeer(remotePeerId: string, loc: Location): any {
+    console.log("ConnectToPeer:\nRemotepeerId: " + remotePeerId + "\nLoc obj: " + loc + "\nLocalpeerId: " + this.peerId);
+    let localPeerId = this.peerId;
     var dataConn = this.peer.connect(remotePeerId);
     dataConn.on('open', function () {
       dataConn.send(
-        [
-          loc, this.peerId
-        ]
+        {
+          "location": [loc.latitude, loc.longitude, loc.city, loc.state, loc.country],
+          "localPeerId": localPeerId
+        }
       );
     });
     return dataConn;
@@ -101,7 +107,7 @@ export class PeerService {
         console.log(res);
       },
       err => {
-        console.log("Error: " + err.json());
+        console.log("Error: " + err);
       }
     );
     return urlext;
