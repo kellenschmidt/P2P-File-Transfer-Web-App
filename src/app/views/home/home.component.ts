@@ -9,16 +9,16 @@ import { PeerService } from '../../shared/api/peer.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-	peerId: string;
+  peerId: string;
+  url: string;
 	
-	constructor(private peerService: PeerService, private route: ActivatedRoute) { }
+  constructor(private peerService: PeerService, private route: ActivatedRoute) { }
+  ngOnInit() { }
 
-	ngOnInit() {
+  getPeerId() {
+    this.peerId = this.peerService.getPeerId();
 	}
-	getPeerId(){
-		this.peerId = this.peerService.getPeerId();
-	}
-	createUrl(){
-		this.peerService.createUrl();
+  createUrl() {
+    this.url = this.peerService.createUrl();
 	}
 }
