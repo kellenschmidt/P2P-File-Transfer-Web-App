@@ -13,6 +13,7 @@ import { Location } from '../../shared/api/location';
 export class FileDownloadComponent implements OnInit {
   url: string;
   currentLocation: Location;
+  connection: any;
 
   ngOnInit() {
     this.setGeoLocation();
@@ -26,7 +27,7 @@ export class FileDownloadComponent implements OnInit {
 
   requestConnection() {
     // Request to connect by giving url and location object
-    var connection = this.peerService.initConn(this.url, this.currentLocation);
+    this.connection = this.peerService.initConn(this.url, this.currentLocation);
   }
 
   async setGeoLocation() {
