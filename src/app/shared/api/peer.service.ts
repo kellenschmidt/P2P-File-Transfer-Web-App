@@ -10,6 +10,7 @@ export class PeerService {
   peer: any;
   peerId: string;
   remotePeerId: string;
+  connection: any;
   public receivedData: Observable<any>;
 
   constructor(private api: ApiService) {
@@ -34,16 +35,21 @@ export class PeerService {
     return this.peerId;
   }
 
+  getConnection(): any {
+    return this.connection || "No connection active";
+  }
+
   // In the future this should take the current url in as an input, and middleman the connection
   // Inputs: The remote peer ID and a JSON object with City, State, Country, lat, and long fields
   // Returns a DataConnection object
-  initConn(url: string, loc: Location): any {
+  initConn(url: string, loc: Location) {
     // Get remotePeerId from db
     this.remotePeerId = "";
     this.api.getPeerByUrl(url).subscribe(
       res => {
         this.remotePeerId = res.peerid;
-        return this.connectToPeer(this.remotePeerId, loc);
+        console.log("Remote peer id: " + this.remotePeerId);
+        this.connection = this.connectToPeer(this.remotePeerId, loc);
       },
       err => {
         console.log(err);
@@ -57,14 +63,6 @@ export class PeerService {
     var dataConn = this.peer.connect(remotePeerId);
     dataConn.on('open', function () {
       dataConn.send(
-        // {
-        //   "Greeting": 'Hello! You are peerId ' + remotePeerId + ', greetings from peerId ' + this.peerId,
-        //   "city": loc.city,
-        //   "state": loc.state,
-        //   "country": loc.country,
-        //   "lat": loc.latitude,
-        //   "long": loc.longitude,
-        // },
         [
           loc, this.peerId
         ]
