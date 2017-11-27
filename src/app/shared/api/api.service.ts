@@ -8,22 +8,21 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ApiService {
 
-    _apiUrl = '/api';
+  _apiUrl = '/api';
 
-    constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) { }
 
-    getPeerByUrl(url: string): Observable<any> {
-		let res = this.http.get(this._apiUrl + '/' + url);
-		console.log(res);
-        return res;
-    }
+  getPeerByUrl(url: string): Observable<any> {
+    let res = this.http.get(this._apiUrl + '/' + url);
+    return res;
+  }
 
-    addPeer(peer: string, url: string): Observable<any> {
-        console.log("addPeer method: " + peer + ":" + url);
-        return this.http.post(this._apiUrl, 
-        {
-            "peerid": peer,
-            "url": url
-        })
-    }
+  addPeer(peer: string, url: string): Observable<any> {
+    console.log("addPeer method: " + peer + ":" + url);
+    return this.http.post(this._apiUrl,
+      {
+        "peerid": peer,
+        "url": url
+      })
+  }
 }
