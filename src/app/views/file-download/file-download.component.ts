@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PeerService } from '../../shared/api/peer.service';
 import { MapsService } from '../../shared/api/maps.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Location } from '../../shared/api/location';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-file-download',
@@ -11,46 +13,42 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class FileDownloadComponent implements OnInit {
   url: string;
-  lat: number;
-  lon: number;
-  currentCity: string;
-  currentState: string;
-  currentCountry: string;
+  currentLocation: Location;
+  connection: any;
+
+  ngOnInit() {
+    this.setGeoLocation();
+    this.setReverseGeocode();
+  }
 
   constructor(private router: Router, private route: ActivatedRoute, private peerService: PeerService, private mapsService: MapsService) {
     this.url = route.snapshot.url[0].path;
+    this.requestConnection();
   }
 
-  requestConnection(url: string) {
-	// Build JSON location object
-	let loc = {
-		"City": this.currentCity,
-		"State": this.currentState,
-		"Country": this.currentCountry,
-		"lat": this.lat,
-		"long": this.lon
-	}
-    // Request to connect, then get peerId from db
-    //var connection = this.initConn('<remotePeerId>')
+  requestConnection() {
+    // Request to connect by giving url and location object
+    this.connection = this.peerService.initConn(this.url, this.currentLocation);
   }
-  private initConn(remotePeerId: any, loc: Object) {
-    this.peerService.initConn(remotePeerId, loc);
-  }
-  setGeoLocation() {
+
+  async setGeoLocation(): Promise<void> {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lon = position.coords.longitude;
+      await navigator.geolocation.getCurrentPosition((position) => {
+        this.currentLocation = new Location(position.coords.latitude, position.coords.longitude, "Anytown", "Mystate", "USA");
+        console.log("Geoloc set");
       });
     } else {
       console.log("Could not acquire current location");
+      this.currentLocation = new Location(null, null, null, null, null);
     }
   }
 
   setReverseGeocode() {
-    this.mapsService.setReverseGeocode(this.lat, this.lon)
+    console.log(this.currentLocation.latitude, this.currentLocation.longitude);
+    this.mapsService.setReverseGeocode(this.currentLocation.latitude, this.currentLocation.longitude)
       .subscribe(
       (data) => {
+        console.log(data);
         let addressComponents: any[] = data['results'][0]['address_components'];
         this.setLocationText(addressComponents);
       },
@@ -70,19 +68,14 @@ export class FileDownloadComponent implements OnInit {
   setLocationText(addressComponents: any[]) {
     for (let i = 0; i < addressComponents.length; i++) {
       if (addressComponents[i]['types'][0] == 'locality') {
-        this.currentCity = addressComponents[i]['long_name'];
+        this.currentLocation.city = addressComponents[i]['long_name'];
       }
       if (addressComponents[i]['types'][0] == 'administrative_area_level_1') {
-        this.currentState = addressComponents[i]['long_name'];
+        this.currentLocation.state = addressComponents[i]['long_name'];
       }
       if (addressComponents[i]['types'][0] == 'country') {
-        this.currentCountry = addressComponents[i]['long_name'];
+        this.currentLocation.country = addressComponents[i]['long_name'];
       }
     }
-  }
-
-  ngOnInit() {
-    this.setGeoLocation();
-    this.setReverseGeocode();
   }
 }
