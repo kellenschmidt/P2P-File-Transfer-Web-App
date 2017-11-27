@@ -10,15 +10,11 @@ import { PeerService } from '../../shared/api/peer.service';
 })
 export class HomeComponent implements OnInit {
   peerId: string;
-  url: string;
 	
   constructor(private peerService: PeerService, private route: ActivatedRoute) { }
   ngOnInit() { }
 
   getPeerId() {
     this.peerId = this.peerService.getPeerId();
-	}
-  createUrl() {
-    this.url = this.peerService.createUrl();
 	}
 }

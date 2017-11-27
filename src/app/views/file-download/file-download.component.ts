@@ -4,6 +4,7 @@ import { PeerService } from '../../shared/api/peer.service';
 import { MapsService } from '../../shared/api/maps.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from '../../shared/api/location';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-file-download',
@@ -18,11 +19,11 @@ export class FileDownloadComponent implements OnInit {
   ngOnInit() {
     this.setGeoLocation();
     this.setReverseGeocode();
-    this.requestConnection();
   }
 
   constructor(private router: Router, private route: ActivatedRoute, private peerService: PeerService, private mapsService: MapsService) {
     this.url = route.snapshot.url[0].path;
+    this.requestConnection();
   }
 
   requestConnection() {
@@ -30,21 +31,24 @@ export class FileDownloadComponent implements OnInit {
     this.connection = this.peerService.initConn(this.url, this.currentLocation);
   }
 
-  async setGeoLocation() {
+  async setGeoLocation(): Promise<void> {
     if (navigator.geolocation) {
       await navigator.geolocation.getCurrentPosition((position) => {
-        this.currentLocation.latitude = position.coords.latitude;
-        this.currentLocation.longitude = position.coords.longitude;
+        this.currentLocation = new Location(position.coords.latitude, position.coords.longitude, "Anytown", "Mystate", "USA");
+        console.log("Geoloc set");
       });
     } else {
       console.log("Could not acquire current location");
+      this.currentLocation = new Location(null, null, null, null, null);
     }
   }
 
-  async setReverseGeocode() {
-    await this.mapsService.setReverseGeocode(this.currentLocation.latitude, this.currentLocation.longitude)
+  setReverseGeocode() {
+    console.log(this.currentLocation.latitude, this.currentLocation.longitude);
+    this.mapsService.setReverseGeocode(this.currentLocation.latitude, this.currentLocation.longitude)
       .subscribe(
       (data) => {
+        console.log(data);
         let addressComponents: any[] = data['results'][0]['address_components'];
         this.setLocationText(addressComponents);
       },
