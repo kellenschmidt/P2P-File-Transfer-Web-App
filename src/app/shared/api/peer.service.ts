@@ -10,21 +10,22 @@ export class PeerService {
   peer: any;
   peerId: string;
   remotePeerId: string;
-  public receivedData: Observable<any>;
+  myObservable: Observable<any>;
 
   constructor(private api: ApiService) {
     // Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
     // field please let me know Kellen
     this.peer = new Peer({ key: '7599wxdge79442t9' });
+    this.myObservable = new Subject();
+
     setTimeout(() => {
       this.peerId = this.peer.id;
       console.log("PeerId:" + this.peer.id);
     }, 3000);
+
     this.peer.on('connection', function (conn) {
       conn.on('data', function (data) {
-        this.receivedData = new Observable(observer => {
-          observer.next(data);
-        });
+        this.myObservable.next(data);
       });
     });
   }
@@ -39,6 +40,7 @@ export class PeerService {
   // Returns a DataConnection object
   initConn(url: string, loc: Location): any {
     // Get remotePeerId from db
+
     this.remotePeerId = "";
     this.api.getPeerByUrl(url).subscribe(
       res => {
@@ -57,40 +59,14 @@ export class PeerService {
     var dataConn = this.peer.connect(remotePeerId);
     dataConn.on('open', function () {
       dataConn.send(
-        // {
-        //   "Greeting": 'Hello! You are peerId ' + remotePeerId + ', greetings from peerId ' + this.peerId,
-        //   "city": loc.city,
-        //   "state": loc.state,
-        //   "country": loc.country,
-        //   "lat": loc.latitude,
-        //   "long": loc.longitude,
-        // },
-        [
-          loc, this.peerId
-        ]
+        {
+          "location": loc,
+          "peerId": this.peerId
+        }
       );
     });
     return dataConn;
   }
-
-  // receiveData(location: Location) {
-  //   this.receivedData.subscribe(
-  //     data => {
-  //       console.log('onNext: %s', data)
-  //       location.latitude = data[0].latitude;
-  //       location.longitude = data[0].Location;
-  //       location.city = data[0].city;
-  //       location.state = data[0].state;
-  //       location.country = data[0].country;
-  //     },
-  //     error => {
-  //       console.log('onError: %s', error)
-  //     },
-  //     () => {
-  //       console.log('onCompleted')
-  //     }
-  //   );
-  // }
 
   // SQL server will have a table with two columns: {url}|{peerID}
   createUrl() {
@@ -116,7 +92,7 @@ export class PeerService {
     for (var i = 0; i < 3; i++)
       code += keyspace.charAt(Math.floor(Math.random() * keyspace.length));
 
-    // reutrn Math.random().toString(36).substr(2,5);
+    // return Math.random().toString(36).substr(2,5);
     return code;
   }
 
