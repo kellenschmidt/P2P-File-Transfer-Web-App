@@ -27,8 +27,22 @@ export class FileDownloadComponent implements OnInit {
 
   requestConnection() {
     // Request to connect by giving url and location object
-    this.connection = this.peerService.initConn(this.url, this.currentLocation);
-    console.log("Connection", this.connection);
+    this.peerService.initConn(this.url, this.currentLocation);
+    // Kellen I'm sorry
+    setTimeout(() => {
+      this.connection = this.peerService.getConnection();
+      console.log("Connection", this.connection);
+      this.connection.on('data', function (data) {
+        console.log(data);
+        this.downloadfile(data);
+      })
+    }, 2000);
+  }
+
+  downloadFile(data: Response) {
+    var blob = new Blob([data], { type: 'text/csv' });
+    var url = window.URL.createObjectURL(blob);
+    window.open(url);
   }
 
   setGeoLocation(){
@@ -39,7 +53,7 @@ export class FileDownloadComponent implements OnInit {
       });
     } else {
       console.log("Could not acquire current location");
-      this.currentLocation = new Location(null, null, null, null, null);
+      this.currentLocation = new Location(0, 0, "Err", "Err", "Err");
     }
   }
 
