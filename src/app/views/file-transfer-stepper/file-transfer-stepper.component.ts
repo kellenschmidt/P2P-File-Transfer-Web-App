@@ -15,6 +15,7 @@ export class FileTransferStepperComponent implements OnInit {
   currentSize: number = 1100000;
   totalSize: number = 2200000;
   connectionUrl: string = '';
+  connection: any;
   peerId: any;
   receiverLocation: Location;
   @ViewChild('stepper') stepper;
@@ -27,7 +28,15 @@ export class FileTransferStepperComponent implements OnInit {
 	}
 
 	createUrl(){
-		this.connectionUrl = this.peerService.createUrl();
+      this.connectionUrl = this.peerService.createUrl();
+      this.peerService.receivedData.subscribe(
+        res => {
+          console.log("receivedData has observed: " + res);
+        },
+        err => {
+          console.log("Error occured when observing receivedData: " + err);
+        }
+      );
 	}
 
   abbreviateFileSize(oldSize: number, base: number) {
