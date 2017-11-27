@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Location } from './location';
-import { Subject } from 'rxjs/Subject';
+import { ApiService } from './api.service';
 
 @Injectable()
 export class PeerService {
@@ -12,7 +12,9 @@ export class PeerService {
   remotePeerId: string;
   myObservable: Observable<any>;
 
-  constructor() {
+  constructor(private api: ApiService) {
+    // Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
+    // field please let me know Kellen
     this.peer = new Peer({ key: '7599wxdge79442t9' });
     this.myObservable = new Subject();
 
@@ -38,8 +40,16 @@ export class PeerService {
   // Returns a DataConnection object
   initConn(url: string, loc: Location): any {
     // Get remotePeerId from db
-    this.remotePeerId = "wva0po9r4sg1ow29";
-    return this.connectToPeer(this.remotePeerId, loc);
+
+    this.remotePeerId = "";
+    this.api.getPeerByUrl(url).subscribe(
+      res => {
+        this.remotePeerId = res.peerid;
+        return this.connectToPeer(this.remotePeerId, loc);
+      },
+      err => {
+        console.log(err);
+      });
   }
 
   // We only want this service to be able to initiate a connection with a remote peer
@@ -64,6 +74,14 @@ export class PeerService {
     // Can be replaced with a more human-readable extension in the future
     var urlext = this.generateUrlCode();
     console.log(this.peerId + ":" + urlext);
+    this.api.addPeer(this.peerId, urlext).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log("Error: " + err.json());
+      }
+    );
     return urlext;
   }
 
