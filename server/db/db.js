@@ -26,7 +26,7 @@ exports.getByUrl = function(url, done){
 }
 
 exports.create = function(peerid, url, done){
-	const query = 'INSERT INTO host_data(peerid, url) VALUES($1,$2) RETURNING *';
+	const query = 'INSERT INTO host_data(peerid, url) VALUES($1,$2)';
 	client.query(query, [peerid, url], (err, res) => {
 		done(err, res);
 	});
