@@ -27,8 +27,10 @@ export class FileDownloadComponent implements OnInit {
 
   requestConnection() {
     // Request to connect by giving url and location object
-    this.peerService.initConn(this.url, this.currentLocation);
-    // Kellen I'm sorry
+    setTimeout(() => {
+      console.log("CurLoc: " + JSON.stringify(this.currentLocation));
+      this.peerService.initConn(this.url, this.currentLocation);
+    }, 1000);
     setTimeout(() => {
       this.connection = this.peerService.getConnection();
       console.log("Connection", this.connection);
@@ -45,7 +47,7 @@ export class FileDownloadComponent implements OnInit {
     window.open(url);
   }
 
-  setGeoLocation(){
+  setGeoLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.currentLocation = new Location(position.coords.latitude, position.coords.longitude, "Anytown", "Mystate", "USA");
