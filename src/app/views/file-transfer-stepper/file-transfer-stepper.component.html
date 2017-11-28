@@ -14,7 +14,7 @@
         </button>
           
         <!-- Modal -->
-        <div class="modal fade" id="locationApprovalModal" tabindex="-1" role="dialog" aria-labelledby="locationApprovalModalLabel" aria-hidden="true">
+        <div *ngIf="receiverLocation != null" class="modal fade" id="locationApprovalModal" tabindex="-1" role="dialog" aria-labelledby="locationApprovalModalLabel" aria-hidden="true">
           <app-transfer-approval [city]="receiverLocation?.city || ''" [state]="receiverLocation?.state || ''" [country]="receiverLocation?.country || ''" [latitude]="receiverLocation?.latitude || 0" [longitude]="receiverLocation?.longitude || 0" (approval)="handleApproval($event)"></app-transfer-approval>
         </div>
 
