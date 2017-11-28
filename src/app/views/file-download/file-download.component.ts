@@ -4,7 +4,6 @@ import { PeerService } from '../../shared/api/peer.service';
 import { MapsService } from '../../shared/api/maps.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from '../../shared/api/location';
-import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-file-download',
