@@ -9,12 +9,12 @@
         <button (click)="cancelTransfer()" routerLink="/cancel" class="btn btn-danger">Cancel</button>
         
         <!-- Button trigger modal -->
-        <button type="button" data-toggle="modal" data-target="#locationApprovalModal" class="btn btn-success">
-          Approve
+        <button type="button" data-toggle="modal" data-target="#locationApprovalModal" class="btn">
+          Connection Details
         </button>
           
         <!-- Modal -->
-        <div *ngIf="receiverLocation != null" class="modal fade" id="locationApprovalModal" tabindex="-1" role="dialog" aria-labelledby="locationApprovalModalLabel" aria-hidden="true">
+        <div class="modal fade" id="locationApprovalModal" tabindex="-1" role="dialog" aria-labelledby="locationApprovalModalLabel" aria-hidden="true" #locationModal>
           <app-transfer-approval [city]="receiverLocation?.city || ''" [state]="receiverLocation?.state || ''" [country]="receiverLocation?.country || ''" [latitude]="receiverLocation?.latitude || 0" [longitude]="receiverLocation?.longitude || 0" (approval)="handleApproval($event)"></app-transfer-approval>
         </div>
 
