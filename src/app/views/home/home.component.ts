@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { ActivatedRoute } from '@angular/router';
 import { PeerService } from '../../shared/api/peer.service';
 
 @Component({
@@ -8,13 +6,28 @@ import { PeerService } from '../../shared/api/peer.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+
 export class HomeComponent implements OnInit {
+  
   peerId: string;
+  fileList: FileList;
+  fileName: string;
 	
-  constructor(private peerService: PeerService, private route: ActivatedRoute) { }
+  constructor(private peerService: PeerService) { }
+
   ngOnInit() { }
 
   getPeerId() {
     this.peerId = this.peerService.getPeerId();
-	}
+  }
+  
+  fileEvent(fileInput: HTMLInputEvent){
+    this.fileList = fileInput.target.files;
+    this.fileName = this.fileList[0].name;
+  }
+
+}
+
+interface HTMLInputEvent extends Event {
+  target: HTMLInputElement & EventTarget;
 }

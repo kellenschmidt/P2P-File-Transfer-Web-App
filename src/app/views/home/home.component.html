@@ -1,6 +1,18 @@
 <main class="text-center">
-  <h1 class="title">File Transferer</h1>
-  <input class="top-left" id="fi-input" multiple type="file"/>
-  <label id="fi-label" for="fi-input" class="btn btn-primary top-left">Choose Files</label>
-  <button (click)="createUrl()" id="start-transfer-btn" class="btn btn-info" routerLink="/transfer">Initiate transfer</button>
+  <h1 class="display-1">File Transferer</h1>
+    <input class="top-left sr-only" id="fi-input" type="file" (change)="fileEvent($event)"/>
+    <div class="row">
+      <div class="col-2 text-center">
+        <div class="bg-white fi-icon ml-5">
+          <label id="fi-label" for="fi-input"><img src="assets/File-with-gradient.png"></label>
+        </div>
+      </div>
+      <div class="col-7 text-left align-self-center">
+        <p>File: {{fileName}}</p>
+      </div>
+      <div class="col-3 text-center align-self-center">
+        <button id="start-transfer-btn" class="btn btn-gradient" [disabled]="!fileName" (click)="saveFile()" routerLink="/transfer">Initiate transfer</button>
+      </div>
+    </div>
+  
 </main>
