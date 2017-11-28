@@ -17,8 +17,6 @@ export class PeerService {
     // Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
     // field please let me know Kellen
     this.peer = new Peer({ key: '7599wxdge79442t9' });
-    this.myObservable = new Subject();
-
     setTimeout(() => {
       this.peerId = this.peer.id;
       console.log("PeerId:" + this.peerId);
@@ -49,7 +47,6 @@ export class PeerService {
   // Returns a DataConnection object
   initConn(url: string, loc: Location) {
     // Get remotePeerId from db
-
     this.remotePeerId = "";
     this.api.getPeerByUrl(url).subscribe(
       res => {
@@ -80,6 +77,25 @@ export class PeerService {
     return dataConn;
   }
 
+  // receiveData(location: Location) {
+  //   this.receivedData.subscribe(
+  //     data => {
+  //       console.log('onNext: %s', data)
+  //       location.latitude = data[0].latitude;
+  //       location.longitude = data[0].Location;
+  //       location.city = data[0].city;
+  //       location.state = data[0].state;
+  //       location.country = data[0].country;
+  //     },
+  //     error => {
+  //       console.log('onError: %s', error)
+  //     },
+  //     () => {
+  //       console.log('onCompleted')
+  //     }
+  //   );
+  // }
+
   // SQL server will have a table with two columns: {url}|{peerID}
   createUrl() {
     console.log("Generating url...");
@@ -104,7 +120,7 @@ export class PeerService {
     for (var i = 0; i < 3; i++)
       code += keyspace.charAt(Math.floor(Math.random() * keyspace.length));
 
-    // return Math.random().toString(36).substr(2,5);
+    // reutrn Math.random().toString(36).substr(2,5);
     return code;
   }
 
