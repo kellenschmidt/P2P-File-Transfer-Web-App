@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Location } from './location';
 import { ApiService } from './api.service';
@@ -11,8 +11,7 @@ export class PeerService {
   peerId: string;
   remotePeerId: string;
   connection: any;
-  @Output() receivedData: EventEmitter<any> = new EventEmitter();
-  //public receivedData: Observable<any>;
+  public receivedData: Observable<any>;
 
   constructor(private api: ApiService) {
     // Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
@@ -20,7 +19,7 @@ export class PeerService {
     this.peer = new Peer({ key: '7599wxdge79442t9' });
     setTimeout(() => {
       this.peerId = this.peer.id;
-      console.log("PeerId:" + this.peer.id);
+      console.log("PeerId:" + this.peerId);
     }, 1000);
     this.peer.on('connection', function (conn) {
       conn.on('data', function (data) {
@@ -28,7 +27,8 @@ export class PeerService {
         //  observer.next(data);
         //});
         console.log(data);
-        this.receivedData.emit(data);
+        sessionStorage.setItem("peerId", data.peerId);
+        sessionStorage.setItem("location", data.location);
       });
     });
   }
@@ -70,7 +70,7 @@ export class PeerService {
       dataConn.send(
         {
           "location": [loc.latitude, loc.longitude, loc.city, loc.state, loc.country],
-          "localPeerId": localPeerId
+          "peerId": localPeerId
         }
       );
     });
