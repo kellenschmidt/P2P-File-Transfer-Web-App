@@ -1,12 +1,14 @@
 .link-display {
     font-size: 40px; 
-    margin-top: 1rem;
-    margin-bottom: 2rem;
 
     a {
-        margin-left: .2em;
+        margin-left: .25em;
         font-size: .8em;
-        padding: .5rem .7rem;
+        padding: .3rem .7rem;
+
+        i {
+            font-size: 1.6rem;
+        }
 
         &:hover {
             background-color: #dddddd;
