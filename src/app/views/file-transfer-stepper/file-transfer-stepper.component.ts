@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PeerService } from '../../shared/api/peer.service';
 import { Location } from '../../shared/api/location';
+import { FileService } from '../../shared/api/file.service';
 
 @Component({
   selector: 'app-file-transfer-stepper',
@@ -18,10 +19,12 @@ export class FileTransferStepperComponent implements OnInit {
   peerId: any;
   remotePeerId: any;
   receiverLocation: Location;
+  file: File;
   @ViewChild('stepper') stepper;
 
   constructor(private _formBuilder: FormBuilder,
-              private peerService: PeerService) { }
+              private peerService: PeerService,
+              private fileService: FileService) { }
 
   getPeerId(){
 		this.peerId = this.peerService.getPeerId();
@@ -46,6 +49,7 @@ export class FileTransferStepperComponent implements OnInit {
           console.log(this.remotePeerId, JSON.stringify(this.receiverLocation));
           sessionStorage.removeItem('peerId');
           sessionStorage.removeItem('location');
+          this.fileService.getFile();
           clearInterval(sessionInt);
         }
       }, 2000);
