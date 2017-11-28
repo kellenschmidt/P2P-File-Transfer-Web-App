@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Location } from './location';
 import { ApiService } from './api.service';
+import { saveAs } from 'file-saver';
 
 @Injectable()
 export class PeerService {
@@ -14,8 +15,6 @@ export class PeerService {
   public receivedData: Observable<any>;
 
   constructor(private api: ApiService) {
-    // Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
-    // field please let me know Kellen
     this.peer = new Peer({ key: '7599wxdge79442t9' });
     setTimeout(() => {
       this.peerId = this.peer.id;
@@ -23,9 +22,6 @@ export class PeerService {
     }, 1000);
     this.peer.on('connection', (conn) => {
       conn.on('data', (data) => {
-        //this.receivedData = new Observable(observer => {
-        //  observer.next(data);
-        //});
         console.log(data);
         this.downloadFile(data);
         sessionStorage.setItem("peerId", data.peerId);
@@ -35,9 +31,9 @@ export class PeerService {
   }
 
   downloadFile(data: Response) {
-    var blob = new Blob([data], { type: 'application/octet-stream' });
+    var blob = new Blob([data[0]], { type: data[1] });
     var url = window.URL.createObjectURL(blob);
-    window.open(url);
+    saveAs(blob, data[2]);
   }
 
   getPeerId(): string {
@@ -87,29 +83,9 @@ export class PeerService {
   sendFile(file: File, peerid: string) {
     this.connection = this.peer.connect(peerid);
     this.connection.on('open', () => {
-      this.connection.send(file);
+      this.connection.send([file, file.type, file.name]);
     });
   }
-
-  // receiveData(location: Location) {
-  //   this.receivedData.subscribe(
-  //     data => {
-  //       console.log('onNext: %s', data)
-  //       location.latitude = data[0].latitude;
-  //       location.longitude = data[0].Location;
-  //       location.city = data[0].city;
-  //       location.state = data[0].state;
-  //       location.country = data[0].country;
-  //     },
-  //     error => {
-  //       console.log('onError: %s', error)
-  //     },
-  //     () => {
-  //       console.log('onCompleted')
-  //     }
-  //   );
-  // }
-
   // SQL server will have a table with two columns: {url}|{peerID}
   createUrl() {
     console.log("Generating url...");
@@ -133,8 +109,6 @@ export class PeerService {
 
     for (var i = 0; i < 3; i++)
       code += keyspace.charAt(Math.floor(Math.random() * keyspace.length));
-
-    // reutrn Math.random().toString(36).substr(2,5);
     return code;
   }
 
