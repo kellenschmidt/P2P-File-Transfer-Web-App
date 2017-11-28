@@ -18,7 +18,6 @@ export class FileDownloadComponent implements OnInit {
 
   ngOnInit() {
     this.setGeoLocation();
-    this.setReverseGeocode();
   }
 
   constructor(private router: Router, private route: ActivatedRoute, private peerService: PeerService, private mapsService: MapsService) {
@@ -28,18 +27,34 @@ export class FileDownloadComponent implements OnInit {
 
   requestConnection() {
     // Request to connect by giving url and location object
-    this.connection = this.peerService.initConn(this.url, this.currentLocation);
+    setTimeout(() => {
+      this.peerService.initConn(this.url, this.currentLocation);
+    }, 1000);
+    setTimeout(() => {
+      this.connection = this.peerService.getConnection();
+      console.log("Connection", this.connection);
+      this.connection.on('data', function (data) {
+        console.log(data);
+        this.downloadfile(data);
+      })
+    }, 2000);
   }
 
-  async setGeoLocation(): Promise<void> {
+  downloadFile(data: Response) {
+    var blob = new Blob([data], { type: 'text/csv' });
+    var url = window.URL.createObjectURL(blob);
+    window.open(url);
+  }
+
+  setGeoLocation() {
     if (navigator.geolocation) {
-      await navigator.geolocation.getCurrentPosition((position) => {
+      navigator.geolocation.getCurrentPosition((position) => {
         this.currentLocation = new Location(position.coords.latitude, position.coords.longitude, "Anytown", "Mystate", "USA");
-        console.log("Geoloc set");
+        this.setReverseGeocode();
       });
     } else {
       console.log("Could not acquire current location");
-      this.currentLocation = new Location(null, null, null, null, null);
+      this.currentLocation = new Location(0, 0, "Err", "Err", "Err");
     }
   }
 
@@ -48,7 +63,7 @@ export class FileDownloadComponent implements OnInit {
     this.mapsService.setReverseGeocode(this.currentLocation.latitude, this.currentLocation.longitude)
       .subscribe(
       (data) => {
-        console.log(data);
+        // There isn't any error catching here - if google doesn't give us a response we don't handle anything
         let addressComponents: any[] = data['results'][0]['address_components'];
         this.setLocationText(addressComponents);
       },

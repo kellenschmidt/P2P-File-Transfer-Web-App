@@ -17,7 +17,6 @@ export class ApiService {
   }
 
   addPeer(peer: string, url: string): Observable<any> {
-    console.log("addPeer method: " + peer + ":" + url);
     return this.http.post(this._apiUrl,
       {
         "peerid": peer,

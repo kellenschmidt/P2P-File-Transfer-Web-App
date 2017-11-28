@@ -10,7 +10,8 @@ export class PeerService {
   peer: any;
   peerId: string;
   remotePeerId: string;
-  myObservable: Observable<any>;
+  connection: any;
+  public receivedData: Observable<any>;
 
   constructor(private api: ApiService) {
     // Replace '<key>' with actual key in prod, if there is anything other than '<key>' in this
@@ -20,12 +21,16 @@ export class PeerService {
 
     setTimeout(() => {
       this.peerId = this.peer.id;
-      console.log("PeerId:" + this.peer.id);
-    }, 3000);
-
+      console.log("PeerId:" + this.peerId);
+    }, 1000);
     this.peer.on('connection', function (conn) {
       conn.on('data', function (data) {
-        this.myObservable.next(data);
+        //this.receivedData = new Observable(observer => {
+        //  observer.next(data);
+        //});
+        console.log(data);
+        sessionStorage.setItem("peerId", data.peerId);
+        sessionStorage.setItem("location", data.location);
       });
     });
   }
@@ -35,17 +40,22 @@ export class PeerService {
     return this.peerId;
   }
 
+  getConnection(): any {
+    return this.connection || "No connection active";
+  }
+
   // In the future this should take the current url in as an input, and middleman the connection
   // Inputs: The remote peer ID and a JSON object with City, State, Country, lat, and long fields
   // Returns a DataConnection object
-  initConn(url: string, loc: Location): any {
+  initConn(url: string, loc: Location) {
     // Get remotePeerId from db
 
     this.remotePeerId = "";
     this.api.getPeerByUrl(url).subscribe(
       res => {
         this.remotePeerId = res.peerid;
-        return this.connectToPeer(this.remotePeerId, loc);
+        console.log("Remote peer id: " + this.remotePeerId);
+        this.connection = this.connectToPeer(this.remotePeerId, loc);
       },
       err => {
         console.log(err);
@@ -56,12 +66,14 @@ export class PeerService {
   // Inputs: The remote peer ID and a JSON object with City, State, Country, lat, and long fields
   // Returns a DataConnection object
   private connectToPeer(remotePeerId: string, loc: Location): any {
+    console.log("ConnectToPeer:\nRemotepeerId: " + remotePeerId + "\nLoc obj: " + loc + "\nLocalpeerId: " + this.peerId);
+    let localPeerId = this.peerId;
     var dataConn = this.peer.connect(remotePeerId);
     dataConn.on('open', function () {
       dataConn.send(
         {
-          "location": loc,
-          "peerId": this.peerId
+          "location": [loc.latitude, loc.longitude, loc.city, loc.state, loc.country],
+          "peerId": localPeerId
         }
       );
     });
@@ -79,7 +91,7 @@ export class PeerService {
         console.log(res);
       },
       err => {
-        console.log("Error: " + err.json());
+        console.log("Error: " + err);
       }
     );
     return urlext;
