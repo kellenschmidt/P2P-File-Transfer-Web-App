@@ -15,7 +15,6 @@ export class FileTransferStepperComponent implements OnInit {
   currentSize: number = 1100000;
   totalSize: number = 2200000;
   connectionUrl: string = '';
-  connection: any;
   peerId: any;
   remotePeerId: any;
   receiverLocation: Location;
@@ -45,6 +44,8 @@ export class FileTransferStepperComponent implements OnInit {
             storedLoc[4]
           );
           console.log(this.remotePeerId, JSON.stringify(this.receiverLocation));
+          sessionStorage.removeItem('peerId');
+          sessionStorage.removeItem('location');
           clearInterval(sessionInt);
         }
       }, 2000);
