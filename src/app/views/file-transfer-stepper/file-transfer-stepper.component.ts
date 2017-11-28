@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PeerService } from '../../shared/api/peer.service';
 import { Location } from '../../shared/api/location';
@@ -82,16 +82,10 @@ export class FileTransferStepperComponent implements OnInit {
     }
   }
 
-  cancelTransfer() {
-    console.log("Transfer canceled");
-  }
-
   handleApproval(isApproved: boolean) {
     if (isApproved) {
       this.isApproved = true;
       this.stepper.selectedIndex = 1;
-    } else {
-      this.cancelTransfer();
     }
   }
 
