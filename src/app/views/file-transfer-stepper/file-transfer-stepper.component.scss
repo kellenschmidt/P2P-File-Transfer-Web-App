@@ -2,6 +2,18 @@
     font-size: 40px; 
     margin-top: 1rem;
     margin-bottom: 2rem;
+
+    a {
+        margin-left: .2em;
+        font-size: .8em;
+        padding: .5rem .7rem;
+
+        &:hover {
+            background-color: #dddddd;
+            border-radius: 2rem;
+            transition: background-color .15s linear;
+        }
+    }
 }
 
 .file-size-display {

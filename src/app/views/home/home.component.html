@@ -2,15 +2,15 @@
   <h1 class="display-1">File Transferer</h1>
     <input class="top-left sr-only" id="fi-input" type="file" (change)="fileEvent($event)"/>
     <div class="row">
-      <div class="col-2 text-center">
+      <div class="col-3 text-center">
         <div class="bg-white fi-icon ml-5">
-          <label id="fi-label" for="fi-input"><img src="assets/File-with-gradient.png"></label>
+          <label id="fi-label" for="fi-input"><img src="assets/File-with-gradient.png"><br><small class="form-text text-muted">Click to select file</small></label>
         </div>
       </div>
-      <div class="col-7 text-left align-self-center">
-        <p>File: {{fileName}}</p>
+      <div class="col-6 text-left align-self-center">
+        <p class="file-name">File: {{fileName}}</p>
       </div>
-      <div class="col-3 text-center align-self-center">
+      <div class="col-3 text-left align-self-center">
         <button id="start-transfer-btn" class="btn btn-gradient" [disabled]="!fileName" routerLink="/transfer">Initiate transfer</button>
       </div>
     </div>

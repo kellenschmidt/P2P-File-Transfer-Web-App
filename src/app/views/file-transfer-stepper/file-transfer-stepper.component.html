@@ -1,12 +1,15 @@
 <main>
-  <mat-horizontal-stepper [linear]="false" #stepper>
+  <mat-horizontal-stepper [linear]="true" #stepper>
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Share link</ng-template>
         
-        <mat-progress-bar [mode]="'indeterminate'" [value]="getTransferPercent()"></mat-progress-bar>
-        <span class="link-display">https://fancyurl.here/{{connectionUrl}}</span>
-        <button (click)="cancelTransfer()" routerLink="/cancel" class="btn btn-danger">Cancel</button>
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        <div class="">
+          <span class="link-display">http://{{ipAddress}}/{{connectionUrl}}<a (click)="copy('http://' + ipAddress + '/' + connectionUrl)" matTooltip="Copy short URL"><i class="glyphicon glyphicon-copy"></i></a></span>
+        </div>
+        <br>
+        <button (click)="cancelTransfer()" routerLink="/cancel" class="btn btn-danger text-left">Cancel</button>
         
         <!-- Button trigger modal -->
         <button type="button" data-toggle="modal" data-target="#locationApprovalModal" class="btn btn-success">
@@ -17,16 +20,6 @@
         <div *ngIf="receiverLocation != null" class="modal fade" id="locationApprovalModal" tabindex="-1" role="dialog" aria-labelledby="locationApprovalModalLabel" aria-hidden="true">
           <app-transfer-approval [city]="receiverLocation?.city || ''" [state]="receiverLocation?.state || ''" [country]="receiverLocation?.country || ''" [latitude]="receiverLocation?.latitude || 0" [longitude]="receiverLocation?.longitude || 0" (approval)="handleApproval($event)"></app-transfer-approval>
         </div>
-
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="secondFormGroup">
-      <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Transfer in progress</ng-template>
-        
-        <mat-progress-bar [mode]="'determinate'" [value]="getTransferPercent()"></mat-progress-bar>
-        <span *ngIf="getTotalSize() > 0" class="file-size-display my-2">{{abbreviateFileSize(getCurrentSize(), getTotalSize())}} / {{abbreviateFileSize(getTotalSize(), getTotalSize())}} - {{getTransferPercent()}}%</span>
-        <button (click)="cancelTransfer()" routerLink="/cancel" class="btn btn-danger">Cancel</button>
 
       </form>
     </mat-step>
