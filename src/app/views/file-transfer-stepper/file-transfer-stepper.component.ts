@@ -15,35 +15,13 @@ export class FileTransferStepperComponent implements OnInit {
   currentSize: number = 1100000;
   totalSize: number = 2200000;
   connectionUrl: string = '';
-  connection: any;
   peerId: any;
   remotePeerId: any;
   receiverLocation: Location;
   @ViewChild('stepper') stepper;
 
   constructor(private _formBuilder: FormBuilder,
-              private peerService: PeerService) {
-    this.peerService.myObservable.subscribe(
-      data => {
-        console.log('onNext: %s', data)
-
-        this.peerId = data['peerId'];
-        let location: Location = data['location'];
-
-        this.receiverLocation.latitude = location.latitude;
-        this.receiverLocation.longitude = location.longitude;
-        this.receiverLocation.city = location.city;
-        this.receiverLocation.state = location.state;
-        this.receiverLocation.country = location.country;
-      },
-      error => {
-        console.log('onError: %s', error)
-      },
-      () => {
-        console.log('onCompleted')
-      }
-    );
-  }
+              private peerService: PeerService) { }
 
   getPeerId(){
 		this.peerId = this.peerService.getPeerId();
@@ -66,6 +44,8 @@ export class FileTransferStepperComponent implements OnInit {
             storedLoc[4]
           );
           console.log(this.remotePeerId, JSON.stringify(this.receiverLocation));
+          sessionStorage.removeItem('peerId');
+          sessionStorage.removeItem('location');
           clearInterval(sessionInt);
         }
       }, 2000);
