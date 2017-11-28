@@ -23,50 +23,56 @@ export class FileTransferStepperComponent implements OnInit {
   @ViewChild('stepper') stepper;
 
   constructor(private _formBuilder: FormBuilder,
-              private peerService: PeerService,
-              private fileService: FileService) { }
+    private peerService: PeerService,
+    private fileService: FileService) {
+    this.file = this.fileService.getFile();
+  }
 
-  getPeerId(){
-		this.peerId = this.peerService.getPeerId();
-	}
+  getPeerId() {
+    this.peerId = this.peerService.getPeerId();
+  }
 
-	createUrl(){
-      this.connectionUrl = this.peerService.createUrl();
-      var sessionInt = setInterval(function () {
-        if (sessionStorage.getItem('peerId') != null && sessionStorage.getItem('location') != null) {
-          console.log("Connection detected!");
-          this.remotePeerId = sessionStorage.getItem('peerId');
-          // Set local location object from session storage
-          var storedLoc = sessionStorage.getItem('location').split(',');
-          console.log(storedLoc);
-          this.receiverLocation = new Location(
-            Number(storedLoc[0]),
-            Number(storedLoc[1]),
-            storedLoc[2],
-            storedLoc[3],
-            storedLoc[4]
-          );
-          console.log(this.remotePeerId, JSON.stringify(this.receiverLocation));
-          sessionStorage.removeItem('peerId');
-          sessionStorage.removeItem('location');
-          this.fileService.getFile();
-          clearInterval(sessionInt);
-        }
-      }, 2000);
-	}
+  createUrl() {
+    this.connectionUrl = this.peerService.createUrl();
+    var sessionInt = setInterval(() =>{
+      if (sessionStorage.getItem('peerId') != null && sessionStorage.getItem('location') != null) {
+        console.log("Connection detected!");
+        this.remotePeerId = sessionStorage.getItem('peerId');
+        // Set local location object from session storage
+        var storedLoc = sessionStorage.getItem('location').split(',');
+        console.log(storedLoc);
+        this.receiverLocation = new Location(
+          Number(storedLoc[0]),
+          Number(storedLoc[1]),
+          storedLoc[2],
+          storedLoc[3],
+          storedLoc[4]
+        );
+        console.log(this.remotePeerId, JSON.stringify(this.receiverLocation));
+        sessionStorage.removeItem('peerId');
+        sessionStorage.removeItem('location');
+        this.sendFile();
+        clearInterval(sessionInt);
+      }
+    }, 2000);
+  }
+
+  sendFile() {
+    this.peerService.sendFile(this.file, this.remotePeerId);
+  }
 
   abbreviateFileSize(oldSize: number, base: number) {
-    if(base < 1000) {
+    if (base < 1000) {
       return `${oldSize} bytes`;
     }
-    else if(base < 1000000) {
-      return `${oldSize/1000} kB`;
+    else if (base < 1000000) {
+      return `${oldSize / 1000} kB`;
     }
-    else if(base < 1000000000) {
-      return `${oldSize/1000000} MB`;
+    else if (base < 1000000000) {
+      return `${oldSize / 1000000} MB`;
     }
     else {
-      return `${oldSize/1000000000} GB`;
+      return `${oldSize / 1000000000} GB`;
     }
   }
 
@@ -79,7 +85,7 @@ export class FileTransferStepperComponent implements OnInit {
   }
 
   getTransferPercent() {
-    return this.getCurrentSize()/this.getTotalSize()*100;
+    return this.getCurrentSize() / this.getTotalSize() * 100;
   }
 
   cancelTransfer() {
@@ -87,7 +93,7 @@ export class FileTransferStepperComponent implements OnInit {
   }
 
   handleApproval(isApproved: boolean) {
-    if(isApproved) {
+    if (isApproved) {
       this.stepper.selectedIndex = 1;
     } else {
       this.cancelTransfer();
