@@ -28,7 +28,6 @@ export class FileDownloadComponent implements OnInit {
   requestConnection() {
     // Request to connect by giving url and location object
     setTimeout(() => {
-      console.log("CurLoc: " + JSON.stringify(this.currentLocation));
       this.peerService.initConn(this.url, this.currentLocation);
     }, 1000);
     setTimeout(() => {
