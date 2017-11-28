@@ -35,15 +35,8 @@ export class FileDownloadComponent implements OnInit {
       console.log("Connection", this.connection);
       this.connection.on('data', function (data) {
         console.log(data);
-        this.downloadfile(data);
       })
     }, 2000);
-  }
-
-  downloadFile(data: Response) {
-    var blob = new Blob([data], { type: 'application/octet-stream' });
-    var url = window.URL.createObjectURL(blob);
-    window.open(url);
   }
 
   setGeoLocation() {
