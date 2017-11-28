@@ -41,7 +41,7 @@ export class FileDownloadComponent implements OnInit {
   }
 
   downloadFile(data: Response) {
-    var blob = new Blob([data], { type: 'text/csv' });
+    var blob = new Blob([data], { type: 'application/octet-stream' });
     var url = window.URL.createObjectURL(blob);
     window.open(url);
   }

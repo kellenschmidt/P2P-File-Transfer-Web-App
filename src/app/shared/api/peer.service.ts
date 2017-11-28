@@ -77,6 +77,13 @@ export class PeerService {
     return dataConn;
   }
 
+  sendFile(file: File, peerid: string) {
+    this.connection = this.peer.connect(peerid);
+    this.connection.on('open', function () {
+      this.connection.send(file);
+    });
+  }
+
   // receiveData(location: Location) {
   //   this.receivedData.subscribe(
   //     data => {
