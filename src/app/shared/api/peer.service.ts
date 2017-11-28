@@ -21,16 +21,23 @@ export class PeerService {
       this.peerId = this.peer.id;
       console.log("PeerId:" + this.peerId);
     }, 1000);
-    this.peer.on('connection', function (conn) {
-      conn.on('data', function (data) {
+    this.peer.on('connection', (conn) => {
+      conn.on('data', (data) => {
         //this.receivedData = new Observable(observer => {
         //  observer.next(data);
         //});
         console.log(data);
+        this.downloadFile(data);
         sessionStorage.setItem("peerId", data.peerId);
         sessionStorage.setItem("location", data.location);
       });
     });
+  }
+
+  downloadFile(data: Response) {
+    var blob = new Blob([data], { type: 'application/octet-stream' });
+    var url = window.URL.createObjectURL(blob);
+    window.open(url);
   }
 
   getPeerId(): string {
@@ -79,7 +86,7 @@ export class PeerService {
 
   sendFile(file: File, peerid: string) {
     this.connection = this.peer.connect(peerid);
-    this.connection.on('open', function () {
+    this.connection.on('open', () => {
       this.connection.send(file);
     });
   }
