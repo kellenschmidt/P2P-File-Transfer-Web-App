@@ -109,23 +109,6 @@ export class FileTransferStepperComponent implements OnInit {
     });
 
     this.createUrl();
-    // this.peerService.receiveData(this.receiverLocation);
-    /*this.peerService.receivedData.subscribe(
-      data => {
-        console.log('onNext: %s', data)
-        this.receiverLocation.latitude = data[0].latitude;
-        this.receiverLocation.longitude = data[0].Location;
-        this.receiverLocation.city = data[0].city;
-        this.receiverLocation.state = data[0].state;
-        this.receiverLocation.country = data[0].country;
-      },
-      error => {
-        console.log('onError: %s', error)
-      },
-      () => {
-        console.log('onCompleted')
-      }
-    );*/
   }
 
 }
