@@ -5,8 +5,8 @@
 
 main {
   @extend .bg-white;
-  @extend .container;
-  border-radius: 4px;
+  @extend .text-dark;
+  // border-radius: 10px;
   @include media-breakpoint-up(xs) { 
     margin-top: 10rem;
   }

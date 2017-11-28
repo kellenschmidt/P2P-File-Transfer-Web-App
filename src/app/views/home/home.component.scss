@@ -1,15 +1,18 @@
-.title {
-  
+div.fi-icon {
+  padding: 1rem 1.3rem 1rem 0.7rem;
+  border-radius: 4rem;
+  img {
+    height: auto;
+    max-width: 5rem;
+  }
 }
 
-#fi-label {
+.btn-gradient {
+    background: purple; /* For browsers that do not support gradients */    
+    background: -webkit-linear-gradient(left bottom, #B237EE, #1B6FF2); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(top right, #B237EE, #1B6FF2); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(top right, #B237EE, #1B6FF2); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to top right, #B237EE, #1B6FF2); /* Standard syntax (must be last) */
 
-}
-
-#fi-input {
-
-}
-
-#start-transfer-btn {
-
+    color: white;
 }
