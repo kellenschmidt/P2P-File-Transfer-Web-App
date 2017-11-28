@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PeerService } from '../../shared/api/peer.service';
 import { Location } from '../../shared/api/location';
 import { FileService } from '../../shared/api/file.service';
-import * as $ from 'jquery';''
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-file-transfer-stepper',
@@ -12,10 +12,8 @@ import * as $ from 'jquery';''
 })
 export class FileTransferStepperComponent implements OnInit {
 
+  ipAddress: string = "35.160.148.71"
   firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  currentSize: number = 1100000;
-  totalSize: number = 2200000;
   connectionUrl: string = '';
   peerId: any;
   remotePeerId: any;
@@ -23,11 +21,11 @@ export class FileTransferStepperComponent implements OnInit {
   isApproved: boolean = false;
   file: File;
   @ViewChild('stepper') stepper;
-  @ViewChild('locationModal') locationModal: ElementRef;
 
   constructor(private _formBuilder: FormBuilder,
     private peerService: PeerService,
-    private fileService: FileService) {
+    private fileService: FileService,
+    private snackBar: MatSnackBar) {
     this.file = this.fileService.getFile();
   }
 
@@ -71,7 +69,7 @@ export class FileTransferStepperComponent implements OnInit {
 
   abbreviateFileSize(oldSize: number, base: number) {
     if (base < 1000) {
-      return `${oldSize} bytes`;
+      return `{oldSize} bytes`;
     }
     else if (base < 1000000) {
       return `${oldSize / 1000} kB`;
@@ -82,18 +80,6 @@ export class FileTransferStepperComponent implements OnInit {
     else {
       return `${oldSize / 1000000000} GB`;
     }
-  }
-
-  getCurrentSize() {
-    return this.currentSize;
-  }
-
-  getTotalSize() {
-    return this.totalSize;
-  }
-
-  getTransferPercent() {
-    return this.getCurrentSize() / this.getTotalSize() * 100;
   }
 
   cancelTransfer() {
@@ -109,12 +95,30 @@ export class FileTransferStepperComponent implements OnInit {
     }
   }
 
+  copy(textToCopy: string) {
+    
+    // Temporarily create invisible element on screen to copy text from
+    let selBox = document.createElement('textarea');
+
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = textToCopy;
+
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+
+    let snackBarRef = this.snackBar.open("File URL copied to clipboard", "", { duration: 2500 });
+  }
+
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
     });
 
     this.createUrl();

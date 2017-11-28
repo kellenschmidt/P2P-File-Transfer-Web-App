@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressBarModule, MatStepperModule, MatInputModule, MatButtonModule } from '@angular/material';
+import { MatProgressBarModule, MatStepperModule, MatInputModule, MatButtonModule, MatSnackBarModule, MatTooltipModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -41,6 +41,8 @@ const appRoutes: Routes = [
     MatStepperModule,
     MatInputModule,
     MatButtonModule,
+    MatSnackBarModule,
+    MatTooltipModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
