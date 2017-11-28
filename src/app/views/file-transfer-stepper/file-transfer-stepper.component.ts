@@ -14,8 +14,10 @@ export class FileTransferStepperComponent implements OnInit {
   secondFormGroup: FormGroup;
   currentSize: number = 1100000;
   totalSize: number = 2200000;
-  connectionUrl: string;
+  connectionUrl: string = '';
+  connection: any;
   peerId: any;
+  remotePeerId: any;
   receiverLocation: Location;
   @ViewChild('stepper') stepper;
 
@@ -48,7 +50,25 @@ export class FileTransferStepperComponent implements OnInit {
 	}
 
 	createUrl(){
-		this.connectionUrl = this.peerService.createUrl();
+      this.connectionUrl = this.peerService.createUrl();
+      var sessionInt = setInterval(function () {
+        if (sessionStorage.getItem('peerId') != null && sessionStorage.getItem('location') != null) {
+          console.log("Connection detected!");
+          this.remotePeerId = sessionStorage.getItem('peerId');
+          // Set local location object from session storage
+          var storedLoc = sessionStorage.getItem('location').split(',');
+          console.log(storedLoc);
+          this.receiverLocation = new Location(
+            Number(storedLoc[0]),
+            Number(storedLoc[1]),
+            storedLoc[2],
+            storedLoc[3],
+            storedLoc[4]
+          );
+          console.log(this.remotePeerId, JSON.stringify(this.receiverLocation));
+          clearInterval(sessionInt);
+        }
+      }, 2000);
 	}
 
   abbreviateFileSize(oldSize: number, base: number) {
@@ -99,6 +119,23 @@ export class FileTransferStepperComponent implements OnInit {
     });
 
     this.createUrl();
+    // this.peerService.receiveData(this.receiverLocation);
+    /*this.peerService.receivedData.subscribe(
+      data => {
+        console.log('onNext: %s', data)
+        this.receiverLocation.latitude = data[0].latitude;
+        this.receiverLocation.longitude = data[0].Location;
+        this.receiverLocation.city = data[0].city;
+        this.receiverLocation.state = data[0].state;
+        this.receiverLocation.country = data[0].country;
+      },
+      error => {
+        console.log('onError: %s', error)
+      },
+      () => {
+        console.log('onCompleted')
+      }
+    );*/
   }
 
 }
