@@ -21,7 +21,28 @@ export class FileTransferStepperComponent implements OnInit {
   @ViewChild('stepper') stepper;
 
   constructor(private _formBuilder: FormBuilder,
-              private peerService: PeerService) { }
+              private peerService: PeerService) {
+    this.peerService.myObservable.subscribe(
+      data => {
+        console.log('onNext: %s', data)
+
+        this.peerId = data['peerId'];
+        let location: Location = data['location'];
+
+        this.receiverLocation.latitude = location.latitude;
+        this.receiverLocation.longitude = location.longitude;
+        this.receiverLocation.city = location.city;
+        this.receiverLocation.state = location.state;
+        this.receiverLocation.country = location.country;
+      },
+      error => {
+        console.log('onError: %s', error)
+      },
+      () => {
+        console.log('onCompleted')
+      }
+    );
+  }
 
   getPeerId(){
 		this.peerId = this.peerService.getPeerId();
