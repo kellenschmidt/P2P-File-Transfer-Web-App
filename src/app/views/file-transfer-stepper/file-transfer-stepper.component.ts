@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PeerService } from '../../shared/api/peer.service';
 import { Location } from '../../shared/api/location';
@@ -18,6 +18,7 @@ export class FileTransferStepperComponent implements OnInit {
   peerId: any;
   remotePeerId: any;
   receiverLocation: Location;
+  isApproved: boolean = false;
   file: File;
   @ViewChild('stepper') stepper;
 
@@ -58,12 +59,17 @@ export class FileTransferStepperComponent implements OnInit {
   }
 
   sendFile() {
-    this.peerService.sendFile(this.file, this.remotePeerId);
+    var sessIt = setInterval(() => {
+      if (this.isApproved) {
+        this.peerService.sendFile(this.file, this.remotePeerId);
+        clearInterval(sessIt);
+      }
+    }, 2000);
   }
 
   abbreviateFileSize(oldSize: number, base: number) {
     if (base < 1000) {
-      return `${oldSize} bytes`;
+      return `{oldSize} bytes`;
     }
     else if (base < 1000000) {
       return `${oldSize / 1000} kB`;
@@ -82,6 +88,7 @@ export class FileTransferStepperComponent implements OnInit {
 
   handleApproval(isApproved: boolean) {
     if (isApproved) {
+      this.isApproved = true;
       this.stepper.selectedIndex = 1;
     } else {
       this.cancelTransfer();
