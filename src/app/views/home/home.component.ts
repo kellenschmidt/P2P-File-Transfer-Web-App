@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PeerService } from '../../shared/api/peer.service';
+import { FileService } from '../../shared/api/file.service';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,10 @@ import { PeerService } from '../../shared/api/peer.service';
 export class HomeComponent implements OnInit {
   
   peerId: string;
-  fileList: FileList;
   fileName: string;
 	
-  constructor(private peerService: PeerService) { }
+  constructor(private peerService: PeerService,
+              private fileService: FileService) { }
 
   ngOnInit() { }
 
@@ -22,8 +23,9 @@ export class HomeComponent implements OnInit {
   }
   
   fileEvent(fileInput: HTMLInputEvent){
-    this.fileList = fileInput.target.files;
-    this.fileName = this.fileList[0].name;
+    let fileList = fileInput.target.files;
+    this.fileName = fileList[0].name;
+    this.fileService.setFile(fileList[0]);
   }
 
 }

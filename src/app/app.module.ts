@@ -16,6 +16,7 @@ import { PeerService } from './shared/api/peer.service';
 import { AgmCoreModule } from '@agm/core';
 import { MapsService } from './shared/api/maps.service';
 import { ApiService } from './shared/api/api.service';
+import { FileService } from './shared/api/file.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent},
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
   providers: [
     PeerService,
     MapsService,
-    ApiService
+    ApiService,
+    FileService
   ],
   bootstrap: [AppComponent],
 })
