@@ -17,6 +17,7 @@ export class FileTransferStepperComponent implements OnInit {
   connectionUrl: string = '';
   connection: any;
   peerId: any;
+  remotePeerId: any;
   receiverLocation: Location;
   @ViewChild('stepper') stepper;
 
@@ -29,14 +30,24 @@ export class FileTransferStepperComponent implements OnInit {
 
 	createUrl(){
       this.connectionUrl = this.peerService.createUrl();
-      this.peerService.receivedData.subscribe(
-        res => {
-          console.log("receivedData has observed: " + res);
-        },
-        err => {
-          console.log("Error occured when observing receivedData: " + err);
+      var sessionInt = setInterval(function () {
+        if (sessionStorage.getItem('peerId') != null && sessionStorage.getItem('location') != null) {
+          console.log("Connection detected!");
+          this.remotePeerId = sessionStorage.getItem('peerId');
+          // Set local location object from session storage
+          var storedLoc = sessionStorage.getItem('location').split(',');
+          console.log(storedLoc);
+          this.receiverLocation = new Location(
+            Number(storedLoc[0]),
+            Number(storedLoc[1]),
+            storedLoc[2],
+            storedLoc[3],
+            storedLoc[4]
+          );
+          console.log(this.remotePeerId, JSON.stringify(this.receiverLocation));
+          clearInterval(sessionInt);
         }
-      );
+      }, 2000);
 	}
 
   abbreviateFileSize(oldSize: number, base: number) {
@@ -88,7 +99,7 @@ export class FileTransferStepperComponent implements OnInit {
 
     this.createUrl();
     // this.peerService.receiveData(this.receiverLocation);
-    this.peerService.receivedData.subscribe(
+    /*this.peerService.receivedData.subscribe(
       data => {
         console.log('onNext: %s', data)
         this.receiverLocation.latitude = data[0].latitude;
@@ -103,7 +114,7 @@ export class FileTransferStepperComponent implements OnInit {
       () => {
         console.log('onCompleted')
       }
-    );
+    );*/
   }
 
 }
