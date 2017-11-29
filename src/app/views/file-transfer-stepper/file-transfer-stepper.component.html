@@ -5,7 +5,7 @@
         <ng-template matStepLabel>Share link</ng-template>
         
         <mat-progress-bar [mode]="'indeterminate'" class="mb-4"></mat-progress-bar>
-        <span class="link-display d-block">http://{{ipAddress}}/{{connectionUrl}}<a (click)="copy('http://' + ipAddress + '/' + connectionUrl)" matTooltip="Copy short URL"><i class="fa fa-clone"></i></a></span>
+        <span class="link-display d-block">https://{{domainName}}/{{connectionUrl}}<a (click)="copy('http://' + domainName + '/' + connectionUrl)" matTooltip="Copy short URL"><i class="fa fa-clone"></i></a></span>
         <small class="text-muted d-block mb-5">Have the receiver visit this URL</small>
         <button routerLink="/cancel" class="btn btn-danger text-left">Cancel</button>
         

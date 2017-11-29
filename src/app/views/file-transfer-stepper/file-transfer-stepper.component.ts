@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class FileTransferStepperComponent implements OnInit {
 
-  ipAddress: string = "35.160.148.71"
+  domainName: string = "owlobby.com"
   firstFormGroup: FormGroup;
   connectionUrl: string = '';
   peerId: any;
